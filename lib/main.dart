@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:spatium/usable/pages/main_navigation_page.dart';
+import 'package:spatium/features/auth/presentation/page/splash_screen_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
         scaffoldBackgroundColor: Colors.white,
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.black),
       ),
-      home: const MainNavigationPage(),
+      home: const SplashScreenPage(),
     );
   }
 }
