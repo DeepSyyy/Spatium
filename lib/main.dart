@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:spatium/features/timeline/presentation/page/timeline_page.dart';
+import 'package:spatium/usable/pages/main_navigation_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -12,11 +12,13 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Spatium',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        scaffoldBackgroundColor: Colors.white,
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.black),
       ),
-      home: const TimelinePage(),
+      home: const MainNavigationPage(),
     );
   }
 }
