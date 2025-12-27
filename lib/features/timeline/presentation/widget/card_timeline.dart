@@ -19,7 +19,7 @@ class CardCurhat extends StatelessWidget {
               Row(
                 children: [
                   CircleAvatar(
-                    radius: 46,
+                    radius: 24,
                     backgroundImage: NetworkImage(
                       'https://example.com/avatar.jpg',
                     ),

@@ -1,0 +1,16 @@
+<svg width="281" height="260" viewBox="0 0 281 260" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect width="281" height="260" rx="55" fill="#C1C1C1"/>
+<line x1="81.855" y1="215.602" x2="199.855" y2="215.602" stroke="black" stroke-width="5" stroke-linecap="round"/>
+<path d="M47.9475 59.8491C56.8549 48.2469 69.355 44.2469 82.3216 45.7469" stroke="black" stroke-width="8" stroke-linecap="round"/>
+<path d="M233.729 59.8491C224.822 48.2469 212.322 44.2469 199.355 45.7469" stroke="black" stroke-width="8" stroke-linecap="round"/>
+<line x1="59.8815" y1="83.3541" x2="69.6069" y2="94.5757" stroke="black" stroke-width="5" stroke-linecap="round"/>
+<line x1="70.77" y1="72.0173" x2="78.1948" y2="84.8773" stroke="black" stroke-width="5" stroke-linecap="round"/>
+<line x1="89.5886" y1="80.8237" x2="86.2482" y2="66.3549" stroke="black" stroke-width="5" stroke-linecap="round"/>
+<rect x="60.355" y="76.1022" width="69" height="95" rx="34.5" fill="white"/>
+<path d="M80.355 91.4335C80.355 82.9663 87.219 76.1022 95.6863 76.1022C114.281 76.1022 129.355 91.1762 129.355 109.771V123.407C129.355 134.836 120.089 144.102 108.659 144.102H104.855C91.324 144.102 80.355 133.133 80.355 119.602V91.4335Z" fill="black"/>
+<line x1="2.5" y1="-2.5" x2="17.3494" y2="-2.5" transform="matrix(-0.654931 0.755689 0.755689 0.654931 225.587 82.8478)" stroke="black" stroke-width="5" stroke-linecap="round"/>
+<line x1="2.5" y1="-2.5" x2="17.3494" y2="-2.5" transform="matrix(-0.5 0.866025 0.866025 0.5 214.587 70.8478)" stroke="black" stroke-width="5" stroke-linecap="round"/>
+<line x1="2.5" y1="-2.5" x2="17.3494" y2="-2.5" transform="matrix(0.224951 -0.97437 -0.97437 -0.224951 189.355 82.4429)" stroke="black" stroke-width="5" stroke-linecap="round"/>
+<rect x="152.355" y="75.8478" width="69" height="95" rx="34.5" fill="white"/>
+<path d="M172.355 91.1791C172.355 82.7119 179.219 75.8478 187.686 75.8478C206.281 75.8478 221.355 90.9218 221.355 109.517V123.152C221.355 134.582 212.089 143.848 200.659 143.848H196.855C183.324 143.848 172.355 132.879 172.355 119.348V91.1791Z" fill="black"/>
+</svg>
