@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:spatium/features/timeline/presentation/page/create_curhat_page.dart';
 import 'package:spatium/styles/colors.dart';
 import 'package:spatium/styles/typography.dart';
 
@@ -34,22 +35,33 @@ class _TimelineAppbarState extends State<TimelineAppbar> {
               ),
             ),
             const SizedBox(width: 8),
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-              decoration: BoxDecoration(
-                color: AppColor.primary,
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const Icon(Icons.add, size: 18, color: AppColor.white),
-                  const SizedBox(width: 4),
-                  Text(
-                    "Curhat Baru",
-                    style: SpatiumTypography.button.copyWith(fontSize: 13),
+            InkWell(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const CreateCurhatPage(),
                   ),
-                ],
+                );
+              },
+              borderRadius: BorderRadius.circular(12),
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                decoration: BoxDecoration(
+                  color: AppColor.primary,
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const Icon(Icons.add, size: 18, color: AppColor.white),
+                    const SizedBox(width: 4),
+                    Text(
+                      "Curhat Baru",
+                      style: SpatiumTypography.button.copyWith(fontSize: 13),
+                    ),
+                  ],
+                ),
               ),
             ),
           ],

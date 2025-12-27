@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'colors.dart';
+import 'package:spatium/styles/colors.dart';
 
 class SpatiumTypography {
   // Base font family
