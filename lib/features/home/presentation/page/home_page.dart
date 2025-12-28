@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:spatium/styles/colors.dart';
+import 'package:spatium/styles/typography.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -6,16 +8,17 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColor.white,
       appBar: AppBar(
-        title: const Text('Home'),
-        backgroundColor: Colors.white,
-        foregroundColor: Colors.black,
+        title: Text('Home', style: SpatiumTypography.appBarTitle),
+        backgroundColor: AppColor.white,
+        foregroundColor: AppColor.black,
         elevation: 0,
       ),
-      body: const Center(
+      body: Center(
         child: Text(
           'Home Page',
-          style: TextStyle(fontSize: 20),
+          style: SpatiumTypography.pageTitle,
         ),
       ),
     );

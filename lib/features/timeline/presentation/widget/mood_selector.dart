@@ -22,22 +22,22 @@ class _MoodSelectorState extends State<MoodSelector> {
     MoodData(
       name: 'Senang',
       svgPath: 'assets/svg/happy.svg',
-      backgroundColor: const Color(0xFFFFF9C4), // Kuning muda
+      backgroundColor: AppColor.moodHappyBg,
     ),
     MoodData(
       name: 'Biasa',
       svgPath: 'assets/svg/neutral.svg',
-      backgroundColor: const Color(0xFFE0E0E0), // Abu-abu
+      backgroundColor: AppColor.moodNeutralBg,
     ),
     MoodData(
       name: 'Sedih',
       svgPath: 'assets/svg/sad.svg',
-      backgroundColor: const Color(0xFFBBDEFB), // Biru muda
+      backgroundColor: AppColor.moodSadBg,
     ),
     MoodData(
       name: 'Marah',
       svgPath: 'assets/svg/angry.svg',
-      backgroundColor: const Color(0xFFFFCDD2), // Merah muda
+      backgroundColor: AppColor.moodAngryBg,
     ),
   ];
 
@@ -168,7 +168,7 @@ class DashedBorderPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
-      ..color = const Color(0xFF9333EA) // Warna ungu
+      ..color = AppColor.dashedBorderPurple
       ..strokeWidth = 2
       ..style = PaintingStyle.stroke;
 

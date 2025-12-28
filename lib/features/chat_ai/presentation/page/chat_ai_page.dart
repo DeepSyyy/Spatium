@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:spatium/styles/colors.dart';
+import 'package:spatium/styles/typography.dart';
 
 class ChatAIPage extends StatelessWidget {
   const ChatAIPage({super.key});
@@ -7,21 +9,17 @@ class ChatAIPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF5F5F5),
+      backgroundColor: AppColor.backgroundLight,
       appBar: AppBar(
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios, color: Colors.black),
+          icon: Icon(Icons.arrow_back_ios, color: AppColor.black),
           onPressed: () => Navigator.pop(context),
         ),
-        title: const Text(
+        title: Text(
           'Chat AI',
-          style: TextStyle(
-            color: Colors.black,
-            fontSize: 18,
-            fontWeight: FontWeight.w600,
-          ),
+          style: SpatiumTypography.appBarTitle,
         ),
-        backgroundColor: Colors.white,
+        backgroundColor: AppColor.white,
         elevation: 0,
         centerTitle: true,
       ),
@@ -36,7 +34,7 @@ class ChatAIPage extends StatelessWidget {
                     width: 120,
                     height: 120,
                     decoration: BoxDecoration(
-                      color: const Color(0xFFB0C4C7),
+                      color: AppColor.chatRobotPrimary,
                       borderRadius: BorderRadius.circular(20),
                     ),
                     child: Stack(
@@ -51,16 +49,16 @@ class ChatAIPage extends StatelessWidget {
                               Container(
                                 width: 20,
                                 height: 20,
-                                decoration: const BoxDecoration(
-                                  color: Colors.white,
+                                decoration: BoxDecoration(
+                                  color: AppColor.white,
                                   shape: BoxShape.circle,
                                 ),
                                 child: Center(
                                   child: Container(
                                     width: 8,
                                     height: 8,
-                                    decoration: const BoxDecoration(
-                                      color: Colors.black,
+                                    decoration: BoxDecoration(
+                                      color: AppColor.black,
                                       shape: BoxShape.circle,
                                     ),
                                   ),
@@ -70,16 +68,16 @@ class ChatAIPage extends StatelessWidget {
                               Container(
                                 width: 20,
                                 height: 20,
-                                decoration: const BoxDecoration(
-                                  color: Colors.white,
+                                decoration: BoxDecoration(
+                                  color: AppColor.white,
                                   shape: BoxShape.circle,
                                 ),
                                 child: Center(
                                   child: Container(
                                     width: 8,
                                     height: 8,
-                                    decoration: const BoxDecoration(
-                                      color: Colors.black,
+                                    decoration: BoxDecoration(
+                                      color: AppColor.black,
                                       shape: BoxShape.circle,
                                     ),
                                   ),
@@ -95,7 +93,7 @@ class ChatAIPage extends StatelessWidget {
                             width: 30,
                             height: 3,
                             decoration: BoxDecoration(
-                              color: Colors.black,
+                              color: AppColor.black,
                               borderRadius: BorderRadius.circular(2),
                             ),
                           ),
@@ -109,15 +107,15 @@ class ChatAIPage extends StatelessWidget {
                               Container(
                                 width: 8,
                                 height: 8,
-                                decoration: const BoxDecoration(
-                                  color: Color(0xFF8FA5A8),
+                                decoration: BoxDecoration(
+                                  color: AppColor.chatRobotSecondary,
                                   shape: BoxShape.circle,
                                 ),
                               ),
                               Container(
                                 width: 2,
                                 height: 10,
-                                color: const Color(0xFF8FA5A8),
+                                color: AppColor.chatRobotSecondary,
                               ),
                             ],
                           ),
@@ -130,7 +128,7 @@ class ChatAIPage extends StatelessWidget {
                             width: 15,
                             height: 25,
                             decoration: BoxDecoration(
-                              color: const Color(0xFF8FA5A8),
+                              color: AppColor.chatRobotSecondary,
                               borderRadius: BorderRadius.circular(5),
                             ),
                           ),
@@ -142,7 +140,7 @@ class ChatAIPage extends StatelessWidget {
                             width: 15,
                             height: 25,
                             decoration: BoxDecoration(
-                              color: const Color(0xFF8FA5A8),
+                              color: AppColor.chatRobotSecondary,
                               borderRadius: BorderRadius.circular(5),
                             ),
                           ),
@@ -155,7 +153,7 @@ class ChatAIPage extends StatelessWidget {
                     margin: const EdgeInsets.symmetric(horizontal: 40),
                     padding: const EdgeInsets.all(16),
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: AppColor.white,
                       borderRadius: BorderRadius.circular(15),
                     ),
                     child: Row(
@@ -165,25 +163,22 @@ class ChatAIPage extends StatelessWidget {
                           width: 20,
                           height: 20,
                           decoration: BoxDecoration(
-                            gradient: const LinearGradient(
-                              colors: [Color(0xFF8B5CF6), Color(0xFFEC4899)],
+                            gradient: LinearGradient(
+                              colors: [AppColor.gradientPurple, AppColor.gradientPink],
                             ),
                             borderRadius: BorderRadius.circular(5),
                           ),
-                          child: const Icon(
+                          child: Icon(
                             Icons.auto_awesome,
-                            color: Colors.white,
+                            color: AppColor.white,
                             size: 12,
                           ),
                         ),
                         const SizedBox(width: 8),
-                        const Flexible(
+                        Flexible(
                           child: Text(
                             'Halo, apa yang ingin kamu ceritakkan hari ini?',
-                            style: TextStyle(
-                              fontSize: 12,
-                              color: Colors.black87,
-                            ),
+                            style: SpatiumTypography.chatSmall,
                           ),
                         ),
                       ],
@@ -196,10 +191,10 @@ class ChatAIPage extends StatelessWidget {
           Container(
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: AppColor.white,
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.05),
+                  color: AppColor.black.withOpacity(0.05),
                   blurRadius: 10,
                   offset: const Offset(0, -3),
                 ),
@@ -211,16 +206,13 @@ class ChatAIPage extends StatelessWidget {
                   child: Container(
                     padding: const EdgeInsets.symmetric(horizontal: 16),
                     decoration: BoxDecoration(
-                      color: const Color(0xFFF5F5F5),
+                      color: AppColor.backgroundLight,
                       borderRadius: BorderRadius.circular(25),
                     ),
-                    child: const TextField(
+                    child: TextField(
                       decoration: InputDecoration(
                         hintText: 'Tulis pesanmu ...',
-                        hintStyle: TextStyle(
-                          color: Colors.grey,
-                          fontSize: 14,
-                        ),
+                        hintStyle: SpatiumTypography.hint,
                         border: InputBorder.none,
                       ),
                     ),
@@ -230,13 +222,13 @@ class ChatAIPage extends StatelessWidget {
                 Container(
                   width: 48,
                   height: 48,
-                  decoration: const BoxDecoration(
-                    color: Colors.black,
+                  decoration: BoxDecoration(
+                    color: AppColor.black,
                     shape: BoxShape.circle,
                   ),
-                  child: const Icon(
+                  child: Icon(
                     Icons.send,
-                    color: Colors.white,
+                    color: AppColor.white,
                     size: 20,
                   ),
                 ),

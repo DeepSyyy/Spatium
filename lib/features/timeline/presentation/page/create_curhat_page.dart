@@ -48,13 +48,13 @@ class _CreateCurhatPageState extends State<CreateCurhatPage> {
         SnackBar(
           content: Row(
             children: [
-              const Icon(Icons.error, color: Colors.white),
+              Icon(Icons.error, color: AppColor.white),
               const SizedBox(width: 8),
               Expanded(
                 child: Text(
                   'Tulis curhatan terlebih dahulu',
                   style: SpatiumTypography.bodyRegular.copyWith(
-                    color: Colors.white,
+                    color: AppColor.white,
                   ),
                 ),
               ),
@@ -84,7 +84,7 @@ class _CreateCurhatPageState extends State<CreateCurhatPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFFFFFFF), // Background putih #ffffff
+      backgroundColor: AppColor.white,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
@@ -107,9 +107,9 @@ class _CreateCurhatPageState extends State<CreateCurhatPage> {
             right: -MediaQuery.of(context).size.width * 0.2,
             child: Container(
               height: MediaQuery.of(context).size.height * 0.75,
-              decoration: const BoxDecoration(
-                color: Color(0xFFF3F5FE), // Warna hint #f3f5fe
-                borderRadius: BorderRadius.only(
+              decoration: BoxDecoration(
+                color: AppColor.hintBackground,
+                borderRadius: const BorderRadius.only(
                   bottomLeft: Radius.circular(2000),
                   bottomRight: Radius.circular(2000),
                 ),
@@ -247,9 +247,9 @@ class CurhatFailedPage extends StatelessWidget {
             right: -MediaQuery.of(context).size.width * 0.2,
             child: Container(
               height: screenHeight * 0.35,
-              decoration: const BoxDecoration(
-                color: Color(0xFFF3F5FE),
-                borderRadius: BorderRadius.only(
+              decoration: BoxDecoration(
+                color: AppColor.hintBackground,
+                borderRadius: const BorderRadius.only(
                   bottomLeft: Radius.circular(2000),
                   bottomRight: Radius.circular(2000),
                 ),

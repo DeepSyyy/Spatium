@@ -9,10 +9,8 @@ class WelcomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const Color archBackgroundColor = Color(0xFFEFF3FD);
-
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: AppColor.white,
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -57,7 +55,7 @@ class WelcomePage extends StatelessWidget {
                   child: ClipPath(
                     clipper: ArcClipper(),
                     child: Container(
-                      color: archBackgroundColor,
+                      color: AppColor.archBackground,
                     ),
                   ),
                 ),
@@ -155,7 +153,7 @@ class WelcomePage extends StatelessWidget {
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: AppColor.primary,
-                        foregroundColor: Colors.white,
+                        foregroundColor: AppColor.white,
                         elevation: 0,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(30),

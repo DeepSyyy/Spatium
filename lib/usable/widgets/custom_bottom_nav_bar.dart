@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:spatium/styles/colors.dart';
+import 'package:spatium/styles/typography.dart';
 
 class CustomBottomNavBar extends StatelessWidget {
   final int currentIndex;
@@ -15,10 +17,10 @@ class CustomBottomNavBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColor.white,
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: AppColor.black.withOpacity(0.05),
             blurRadius: 10,
             offset: const Offset(0, -3),
           ),
@@ -59,17 +61,16 @@ class CustomBottomNavBar extends StatelessWidget {
               width: 24,
               height: 24,
               colorFilter: ColorFilter.mode(
-                isSelected ? Colors.black : Colors.grey.shade400,
+                isSelected ? AppColor.black : AppColor.greyLight,
                 BlendMode.srcIn,
               ),
             ),
             const SizedBox(height: 4),
             Text(
               label,
-              style: TextStyle(
-                fontSize: 11,
+              style: SpatiumTypography.small.copyWith(
                 fontWeight: FontWeight.w500,
-                color: isSelected ? Colors.black : Colors.grey.shade400,
+                color: isSelected ? AppColor.black : AppColor.greyLight,
               ),
             ),
             const SizedBox(height: 4),
@@ -77,7 +78,7 @@ class CustomBottomNavBar extends StatelessWidget {
               height: 3,
               width: 40,
               decoration: BoxDecoration(
-                color: isSelected ? Colors.black : Colors.transparent,
+                color: isSelected ? AppColor.black : Colors.transparent,
                 borderRadius: BorderRadius.circular(2),
               ),
             ),

@@ -64,7 +64,7 @@ class SpatiumTextField extends StatelessWidget {
         // Input Field
         Container(
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: AppColor.white,
             borderRadius: BorderRadius.circular(12),
             border: Border.all(
               // Jika error border merah, jika tidak border abu/transparan

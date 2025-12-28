@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:spatium/features/auth/presentation/page/splash_screen_page.dart';
+import 'package:spatium/styles/colors.dart';
 
 void main() {
   runApp(const MyApp());
@@ -15,8 +16,8 @@ class MyApp extends StatelessWidget {
       title: 'Spatium',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        scaffoldBackgroundColor: Colors.white,
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.black),
+        scaffoldBackgroundColor: AppColor.white,
+        colorScheme: ColorScheme.fromSeed(seedColor: AppColor.black),
       ),
       home: const SplashScreenPage(),
     );

@@ -17,7 +17,7 @@ class CardCurhat extends StatelessWidget {
         borderRadius: BorderRadius.circular(12),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: AppColor.black.withOpacity(0.05),
             blurRadius: 8,
             offset: const Offset(0, 2),
           ),
@@ -31,7 +31,7 @@ class CardCurhat extends StatelessWidget {
             children: [
               CircleAvatar(
                 radius: 20,
-                backgroundColor: Colors.grey[300],
+                backgroundColor: AppColor.border,
                 child: Icon(Icons.person, color: AppColor.placeholder),
               ),
               const SizedBox(width: 10),
