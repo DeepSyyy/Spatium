@@ -1,0 +1,54 @@
+/// API Constants
+/// Contains all API-related constants including base URL, endpoints, and timeouts
+class ApiConstants {
+  // Base URL - Update this based on your environment
+  static const String baseUrl = 'http://localhost:8080/api/v1';
+  
+  // Production URL (Railway)
+  // static const String baseUrl = 'https://your-app.railway.app/api/v1';
+  
+  // Timeouts
+  static const Duration connectTimeout = Duration(seconds: 30);
+  static const Duration receiveTimeout = Duration(seconds: 30);
+  static const Duration sendTimeout = Duration(seconds: 30);
+  
+  // Auth Endpoints
+  static const String register = '/register';
+  static const String login = '/login';
+  
+  // Posts Endpoints
+  static const String posts = '/posts';
+  static const String userPosts = '/user/posts';
+  static String postDetail(String postId) => '/posts/$postId';
+  
+  // Comments Endpoints
+  static const String comments = '/comments';
+  static String postComments(String postId) => '/posts/$postId/comments';
+  static String deleteComment(String commentId) => '/comments/$commentId';
+  
+  // Reactions Endpoints
+  static String postReactions(String postId) => '/posts/$postId/reactions';
+  
+  // Chat Session Endpoints
+  static const String chatSession = '/chat/session';
+  static String deleteChatSession(String sessionId) => '/chat/session/$sessionId';
+  
+  // Chat Message Endpoints
+  static String sendMessage(String sessionId) => '/chat/$sessionId';
+  static String sessionMessages(String sessionId) => '/chat/$sessionId/messages';
+  static String lastMessages(String sessionId) => '/chat/$sessionId/last';
+  
+  // Moods Endpoints
+  static const String moods = '/moods';
+  static const String moodsToday = '/moods/today';
+  static const String moodsWeekly = '/moods/weekly';
+  static const String moodsStatistics = '/moods/statistics';
+  static const String moodsChart = '/moods/chart';
+  
+  // AI Reflection Endpoints
+  static const String aiReflection = '/ai/reflection';
+  
+  // Headers
+  static const String contentTypeJson = 'application/json';
+  static const String acceptJson = 'application/json';
+}
