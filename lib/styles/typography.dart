@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:spatium/styles/colors.dart';
+import 'package:spatium/styles/constants.dart';
 
 class SpatiumTypography {
   // Base font family
@@ -36,7 +37,7 @@ class SpatiumTypography {
     fontSize: 14,
     fontWeight: FontWeight.w400, // Regular
     color: AppColor.secondary,
-    height: 1.5, // Line height agar nyaman dibaca
+    height: AppConstants.lineHeight15, // Line height agar nyaman dibaca
   );
 
   // Small Text (Timestamp "2 Jam lalu", Label)
@@ -96,7 +97,7 @@ class SpatiumTypography {
     fontSize: 15,
     fontWeight: FontWeight.w400,
     color: AppColor.placeholder,
-    height: 1.5,
+    height: AppConstants.lineHeight15,
   );
 
   // Body text standard size (16px)
@@ -136,6 +137,105 @@ class SpatiumTypography {
     fontFamily: _fontFamily,
     fontSize: 24,
     fontWeight: FontWeight.bold,
+    color: AppColor.black,
+  );
+
+  // Welcome page title (28px, bold, secondary color)
+  static TextStyle get welcomeTitle => const TextStyle(
+    fontFamily: _fontFamily,
+    fontSize: 28,
+    fontWeight: FontWeight.w700,
+    color: AppColor.secondary,
+    letterSpacing: -0.5,
+  );
+
+  // Welcome page subtitle/description (15px, placeholder color)
+  static TextStyle get welcomeSubtitle => const TextStyle(
+    fontFamily: _fontFamily,
+    fontSize: 15,
+    fontWeight: FontWeight.w400,
+    color: AppColor.placeholder,
+    height: AppConstants.lineHeight15,
+  );
+
+  // Button text with custom size (16px, semibold, white)
+  static TextStyle get buttonText => const TextStyle(
+    fontFamily: _fontFamily,
+    fontSize: 16,
+    fontWeight: FontWeight.w600,
+    color: AppColor.white,
+  );
+
+  // Label text - semibold for form labels
+  static TextStyle get labelSemiBold => const TextStyle(
+    fontFamily: _fontFamily,
+    fontSize: 14,
+    fontWeight: FontWeight.w600,
+    color: AppColor.secondary,
+  );
+
+  // Small button text (13px, semibold, white)
+  static TextStyle get buttonSmall => const TextStyle(
+    fontFamily: _fontFamily,
+    fontSize: 13,
+    fontWeight: FontWeight.w600,
+    color: AppColor.white,
+  );
+
+  // Status/mood label text (12px, semibold)
+  static TextStyle get statusLabel => const TextStyle(
+    fontFamily: _fontFamily,
+    fontSize: 12,
+    fontWeight: FontWeight.w600,
+    color: AppColor.statusHappyText,
+  );
+
+  // AI Response title (14px, semibold, AI response text color)
+  static TextStyle get aiResponseTitle => const TextStyle(
+    fontFamily: _fontFamily,
+    fontSize: 14,
+    fontWeight: FontWeight.w700,
+    color: AppColor.aiResponseText,
+  );
+
+  // AI Response body (13px, regular, AI response text color)
+  static TextStyle get aiResponseBody => const TextStyle(
+    fontFamily: _fontFamily,
+    fontSize: 13,
+    fontWeight: FontWeight.w400,
+    color: AppColor.aiResponseText,
+  );
+
+  // Curhat failed page title (20px, bold, secondary color)
+  static TextStyle get failedTitle => const TextStyle(
+    fontFamily: _fontFamily,
+    fontSize: 20,
+    fontWeight: FontWeight.w700,
+    color: AppColor.secondary,
+  );
+
+  // Timeline title for small screens (20px)
+  static TextStyle get timelineTitleSmall => const TextStyle(
+    fontFamily: _fontFamily,
+    fontSize: 20,
+    fontWeight: FontWeight.w700,
+    color: AppColor.secondary,
+    letterSpacing: -0.5,
+  );
+
+  // Bottom nav label (12px, medium weight)
+  static TextStyle get navLabel => const TextStyle(
+    fontFamily: _fontFamily,
+    fontSize: 12,
+    fontWeight: FontWeight.w500,
+    color: AppColor.greyLight,
+  );
+
+  // Bottom nav label selected (12px, medium weight, black)
+  static TextStyle get navLabelSelected => const TextStyle(
+    fontFamily: _fontFamily,
+    fontSize: 12,
+    fontWeight: FontWeight.w500,
     color: AppColor.black,
   );
 }

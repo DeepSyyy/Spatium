@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:spatium/features/timeline/presentation/widget/mood_selector.dart';
 import 'package:spatium/styles/colors.dart';
+import 'package:spatium/styles/constants.dart';
 import 'package:spatium/styles/typography.dart';
 import 'package:spatium/usable/custom_text_field.dart';
 
@@ -49,13 +50,11 @@ class _CreateCurhatPageState extends State<CreateCurhatPage> {
           content: Row(
             children: [
               Icon(Icons.error, color: AppColor.white),
-              const SizedBox(width: 8),
+              const SizedBox(width: AppConstants.spacingS),
               Expanded(
                 child: Text(
                   'Tulis curhatan terlebih dahulu',
-                  style: SpatiumTypography.bodyRegular.copyWith(
-                    color: AppColor.white,
-                  ),
+                  style: SpatiumTypography.button,
                 ),
               ),
             ],
@@ -63,9 +62,9 @@ class _CreateCurhatPageState extends State<CreateCurhatPage> {
           backgroundColor: AppColor.error,
           behavior: SnackBarBehavior.floating,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(AppConstants.radiusS),
           ),
-          margin: const EdgeInsets.all(16),
+          margin: const EdgeInsets.all(AppConstants.spacingL),
         ),
       );
       return;
@@ -86,8 +85,8 @@ class _CreateCurhatPageState extends State<CreateCurhatPage> {
     return Scaffold(
       backgroundColor: AppColor.white,
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
+        backgroundColor: AppColor.transparent,
+        elevation: AppConstants.elevationNone,
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: AppColor.secondary),
           onPressed: () => Navigator.pop(context),
@@ -135,16 +134,14 @@ class _CreateCurhatPageState extends State<CreateCurhatPage> {
                       });
                     },
                   ),
-                  const SizedBox(height: 24),
+                  const SizedBox(height: AppConstants.spacingXxl),
 
               // Kategori Dropdown
               Text(
                 'Kategori',
-                style: SpatiumTypography.bodyRegular.copyWith(
-                  fontWeight: FontWeight.w600,
-                ),
+                style: SpatiumTypography.labelSemiBold,
               ),
-              const SizedBox(height: 8),
+              const SizedBox(height: AppConstants.spacingS),
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 decoration: BoxDecoration(
@@ -178,22 +175,20 @@ class _CreateCurhatPageState extends State<CreateCurhatPage> {
                   ),
                 ),
               ),
-              const SizedBox(height: 24),
+              const SizedBox(height: AppConstants.spacingXxl),
 
               // Isi Curhat Text Area
               Text(
                 'Isi Curhat*',
-                style: SpatiumTypography.bodyRegular.copyWith(
-                  fontWeight: FontWeight.w600,
-                ),
+                style: SpatiumTypography.labelSemiBold,
               ),
-              const SizedBox(height: 8),
+              const SizedBox(height: AppConstants.spacingS),
               SpatiumTextField.area(
                 controller: _curhatController,
                 hintText: 'Lorem Ipsum',
                 isError: _isError,
               ),
-              const SizedBox(height: 24),
+              const SizedBox(height: AppConstants.spacingXxl),
 
               // Kirim Button
               Align(
@@ -203,13 +198,13 @@ class _CreateCurhatPageState extends State<CreateCurhatPage> {
                   style: ElevatedButton.styleFrom(
                     backgroundColor: AppColor.primary,
                     foregroundColor: AppColor.white,
-                    elevation: 0,
+                    elevation: AppConstants.elevationNone,
                     padding: const EdgeInsets.symmetric(
-                      horizontal: 32,
-                      vertical: 12,
+                      horizontal: AppConstants.spacing32,
+                      vertical: AppConstants.spacingM,
                     ),
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
+                      borderRadius: BorderRadius.circular(AppConstants.radiusM),
                     ),
                   ),
                   child: Text(
@@ -259,7 +254,7 @@ class CurhatFailedPage extends StatelessWidget {
           // AppBar di atas hint
           SafeArea(
             child: Padding(
-              padding: const EdgeInsets.all(16.0),
+              padding: const EdgeInsets.all(AppConstants.spacingL),
               child: IconButton(
                 icon: Icon(Icons.arrow_back, color: AppColor.secondary),
                 onPressed: () {
@@ -272,7 +267,7 @@ class CurhatFailedPage extends StatelessWidget {
           // Content - SVG dan Text di tengah layar
           Center(
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 32.0),
+              padding: const EdgeInsets.symmetric(horizontal: AppConstants.spacing32),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 mainAxisSize: MainAxisSize.min,
@@ -283,11 +278,11 @@ class CurhatFailedPage extends StatelessWidget {
                     width: 120,
                     height: 120,
                   ),
-                  const SizedBox(height: 40),
+                  const SizedBox(height: AppConstants.spacing40),
                   // Text
                   Text(
                     'Curhatan gagal dikirim',
-                    style: SpatiumTypography.h1.copyWith(fontSize: 20),
+                    style: SpatiumTypography.failedTitle,
                     textAlign: TextAlign.center,
                   ),
                 ],

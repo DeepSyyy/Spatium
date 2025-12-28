@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:spatium/styles/colors.dart';
+import 'package:spatium/styles/constants.dart';
 import 'package:spatium/styles/typography.dart';
 
 class CardCurhat extends StatelessWidget {
@@ -14,12 +15,12 @@ class CardCurhat extends StatelessWidget {
       padding: EdgeInsets.all(cardPadding),
       decoration: BoxDecoration(
         color: AppColor.white,
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(AppConstants.radiusM),
         boxShadow: [
           BoxShadow(
-            color: AppColor.black.withOpacity(0.05),
-            blurRadius: 8,
-            offset: const Offset(0, 2),
+            color: AppColor.black.withOpacity(AppConstants.opacityLow),
+            blurRadius: AppConstants.blurRadiusS,
+            offset: const Offset(0, AppConstants.elevationLow),
           ),
         ],
       ),
@@ -30,11 +31,11 @@ class CardCurhat extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               CircleAvatar(
-                radius: 20,
+                radius: AppConstants.spacingXl,
                 backgroundColor: AppColor.border,
                 child: Icon(Icons.person, color: AppColor.placeholder),
               ),
-              const SizedBox(width: 10),
+              const SizedBox(width: AppConstants.spacingM),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -49,30 +50,32 @@ class CardCurhat extends StatelessWidget {
                             overflow: TextOverflow.ellipsis,
                           ),
                         ),
-                        const SizedBox(width: 8),
+                        const SizedBox(width: AppConstants.spacingS),
                         Container(
                           padding: const EdgeInsets.symmetric(
-                            horizontal: 8,
-                            vertical: 4,
+                            horizontal: AppConstants.spacingS,
+                            vertical: AppConstants.spacingXs,
                           ),
                           decoration: BoxDecoration(
                             color: AppColor.statusHappyBg,
-                            border: Border.all(color: AppColor.statusHappyText.withOpacity(0.3)),
-                            borderRadius: BorderRadius.circular(12),
+                            border: Border.all(
+                              color: AppColor.statusHappyText.withOpacity(AppConstants.opacityHigh),
+                              width: AppConstants.borderWidthThin,
+                            ),
+                            borderRadius: BorderRadius.circular(AppConstants.radiusM),
                           ),
                           child: Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               CircleAvatar(
-                                radius: 6,
+                                radius: AppConstants.avatarS,
                                 backgroundColor: AppColor.statusHappyText,
                               ),
-                              const SizedBox(width: 4),
+                              const SizedBox(width: AppConstants.spacingXs),
                               Text(
                                 'Senang',
-                                style: SpatiumTypography.small.copyWith(
+                                style: SpatiumTypography.statusLabel.copyWith(
                                   color: AppColor.statusHappyText,
-                                  fontWeight: FontWeight.w600,
                                 ),
                               ),
                             ],
@@ -90,12 +93,12 @@ class CardCurhat extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: 12),
+          const SizedBox(height: AppConstants.spacingM),
           Text(
             'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
             style: SpatiumTypography.bodyRegular,
           ),
-          const SizedBox(height: 12),
+          const SizedBox(height: AppConstants.spacingM),
           Container(
             width: double.infinity,
             padding: EdgeInsets.all(screenWidth * 0.04),
@@ -109,50 +112,44 @@ class CardCurhat extends StatelessWidget {
                 Row(
                   children: [
                     Container(
-                      padding: const EdgeInsets.all(6),
+                      padding: const EdgeInsets.all(AppConstants.avatarS),
                       decoration: BoxDecoration(
-                        color: AppColor.aiResponseText.withOpacity(0.1),
+                        color: AppColor.aiResponseText.withOpacity(AppConstants.opacityMedium),
                         shape: BoxShape.circle,
                       ),
                       child: Icon(
                         Icons.smart_toy_outlined,
                         color: AppColor.aiResponseText,
-                        size: 18,
+                        size: AppConstants.iconXs,
                       ),
                     ),
-                    const SizedBox(width: 8),
+                    const SizedBox(width: AppConstants.spacingS),
                     Text(
                       'Respon AI',
-                      style: SpatiumTypography.h3.copyWith(
-                        color: AppColor.aiResponseText,
-                        fontSize: 14,
-                      ),
+                      style: SpatiumTypography.aiResponseTitle,
                     ),
                   ],
                 ),
-                const SizedBox(height: 10),
+                const SizedBox(height: AppConstants.spacingM),
                 Text(
                   "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s...",
-                  style: SpatiumTypography.bodyRegular.copyWith(
-                    color: AppColor.aiResponseText,
-                    fontSize: 13,
-                  ),
+                  style: SpatiumTypography.aiResponseBody,
                 ),
               ],
             ),
           ),
-          const SizedBox(height: 12),
+          const SizedBox(height: AppConstants.spacingM),
           Row(
             children: [
-              Icon(Icons.favorite_border, size: 20, color: AppColor.placeholder),
-              const SizedBox(width: 4),
+              Icon(Icons.favorite_border, size: AppConstants.iconS, color: AppColor.placeholder),
+              const SizedBox(width: AppConstants.spacingXs),
               Text(
                 '24',
                 style: SpatiumTypography.small,
               ),
-              const SizedBox(width: 16),
-              Icon(Icons.chat_bubble_outline, size: 20, color: AppColor.placeholder),
-              const SizedBox(width: 4),
+              const SizedBox(width: AppConstants.spacingL),
+              Icon(Icons.chat_bubble_outline, size: AppConstants.iconS, color: AppColor.placeholder),
+              const SizedBox(width: AppConstants.spacingXs),
               Text(
                 '8',
                 style: SpatiumTypography.small,

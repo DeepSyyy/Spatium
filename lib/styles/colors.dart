@@ -8,6 +8,7 @@ abstract class AppColor {
 
   // --- UI Surfaces ---
   static const white = Colors.white;
+  static const transparent = Colors.transparent;
   static const border = Color(0xFFE5E7EB); // Abu-abu muda untuk border input
   static const placeholder = Color(0xFF9CA3AF); // Abu-abu untuk hint text
 

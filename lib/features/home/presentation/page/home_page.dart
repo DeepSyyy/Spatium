@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:spatium/styles/colors.dart';
+import 'package:spatium/styles/constants.dart';
 import 'package:spatium/styles/typography.dart';
 
 class HomePage extends StatelessWidget {
@@ -13,7 +14,7 @@ class HomePage extends StatelessWidget {
         title: Text('Home', style: SpatiumTypography.appBarTitle),
         backgroundColor: AppColor.white,
         foregroundColor: AppColor.black,
-        elevation: 0,
+        elevation: AppConstants.elevationNone,
       ),
       body: Center(
         child: Text(

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:spatium/features/timeline/presentation/page/create_curhat_page.dart';
 import 'package:spatium/styles/colors.dart';
+import 'package:spatium/styles/constants.dart';
 import 'package:spatium/styles/typography.dart';
 
 class TimelineAppbar extends StatefulWidget implements PreferredSizeWidget {
@@ -20,7 +21,7 @@ class _TimelineAppbarState extends State<TimelineAppbar> {
       child: Padding(
         padding: EdgeInsets.symmetric(
           horizontal: screenWidth * 0.04,
-          vertical: 8,
+          vertical: AppConstants.spacingS,
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -28,13 +29,13 @@ class _TimelineAppbarState extends State<TimelineAppbar> {
             Expanded(
               child: Text(
                 'Timeline Curhat',
-                style: SpatiumTypography.h1.copyWith(
-                  fontSize: screenWidth < 360 ? 20 : 24,
-                ),
+                style: screenWidth < AppConstants.smallScreenWidth 
+                    ? SpatiumTypography.timelineTitleSmall 
+                    : SpatiumTypography.h1,
                 overflow: TextOverflow.ellipsis,
               ),
             ),
-            const SizedBox(width: 8),
+            const SizedBox(width: AppConstants.spacingS),
             InkWell(
               onTap: () {
                 Navigator.push(
@@ -44,21 +45,21 @@ class _TimelineAppbarState extends State<TimelineAppbar> {
                   ),
                 );
               },
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(AppConstants.radiusM),
               child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                padding: const EdgeInsets.symmetric(horizontal: AppConstants.spacingM, vertical: AppConstants.avatarS),
                 decoration: BoxDecoration(
                   color: AppColor.primary,
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: BorderRadius.circular(AppConstants.radiusM),
                 ),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    const Icon(Icons.add, size: 18, color: AppColor.white),
-                    const SizedBox(width: 4),
+                    const Icon(Icons.add, size: AppConstants.iconXs, color: AppColor.white),
+                    const SizedBox(width: AppConstants.spacingXs),
                     Text(
                       "Curhat Baru",
-                      style: SpatiumTypography.button.copyWith(fontSize: 13),
+                      style: SpatiumTypography.buttonSmall,
                     ),
                   ],
                 ),

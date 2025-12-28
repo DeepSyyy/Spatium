@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:spatium/styles/colors.dart';
+import 'package:spatium/styles/constants.dart';
 import 'package:spatium/styles/typography.dart';
 
 class MoodSelector extends StatefulWidget {
@@ -79,10 +80,10 @@ class _MoodSelectorState extends State<MoodSelector> {
         // Previous Button
         IconButton(
           onPressed: _previousMood,
-          icon: const Icon(Icons.chevron_left, size: 32),
+          icon: const Icon(Icons.chevron_left, size: AppConstants.iconL),
           color: AppColor.secondary,
         ),
-        const SizedBox(width: 12),
+        const SizedBox(width: AppConstants.spacingM),
         
         // Mood Display dengan border putus-putus (rasio 1:1)
         Expanded(
@@ -120,7 +121,7 @@ class _MoodSelectorState extends State<MoodSelector> {
                                   width: size * 0.45,
                                   height: size * 0.45,
                                 ),
-                                const SizedBox(height: 18),
+                                const SizedBox(height: AppConstants.iconXs),
                                 // Mood Name di dalam lingkaran
                                 Text(
                                   currentMood.name,
@@ -138,12 +139,12 @@ class _MoodSelectorState extends State<MoodSelector> {
             ),
           ),
         ),
-        const SizedBox(width: 12),
+        const SizedBox(width: AppConstants.spacingM),
         
         // Next Button
         IconButton(
           onPressed: _nextMood,
-          icon: const Icon(Icons.chevron_right, size: 32),
+          icon: const Icon(Icons.chevron_right, size: AppConstants.iconL),
           color: AppColor.secondary,
         ),
       ],
@@ -169,12 +170,12 @@ class DashedBorderPainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
       ..color = AppColor.dashedBorderPurple
-      ..strokeWidth = 2
+      ..strokeWidth = AppConstants.borderWidthMedium
       ..style = PaintingStyle.stroke;
 
-    const dashWidth = 8.0;
-    const dashSpace = 6.0;
-    const radius = 16.0;
+    const dashWidth = AppConstants.dashWidth;
+    const dashSpace = AppConstants.dashSpace;
+    const radius = AppConstants.spacingL;
 
     final path = Path()
       ..addRRect(RRect.fromRectAndRadius(

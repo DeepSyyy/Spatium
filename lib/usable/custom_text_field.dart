@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:spatium/styles/colors.dart';
+import 'package:spatium/styles/constants.dart';
 import 'package:spatium/styles/typography.dart';
 
 class SpatiumTextField extends StatelessWidget {
@@ -55,21 +56,21 @@ class SpatiumTextField extends StatelessWidget {
           Text(
             label!,
             style: SpatiumTypography.bodyRegular.copyWith(
-              color: AppColor.secondary.withOpacity(0.7),
+              color: AppColor.secondary.withOpacity(AppConstants.opacity70),
             ),
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: AppConstants.spacingS),
         ],
         
         // Input Field
         Container(
           decoration: BoxDecoration(
             color: AppColor.white,
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(AppConstants.radiusM),
             border: Border.all(
               // Jika error border merah, jika tidak border abu/transparan
               color: isError ? AppColor.error : AppColor.border, 
-              width: 1,
+              width: AppConstants.borderWidthThin,
             ),
           ),
           child: TextFormField(
@@ -84,7 +85,7 @@ class SpatiumTextField extends StatelessWidget {
                 color: AppColor.placeholder,
               ),
               border: InputBorder.none,
-              contentPadding: const EdgeInsets.all(16),
+              contentPadding: const EdgeInsets.all(AppConstants.spacingL),
               suffixIcon: suffixIcon,
             ),
           ),
@@ -92,7 +93,7 @@ class SpatiumTextField extends StatelessWidget {
         
         // Pesan Error (jika ada)
         if (isError && errorMessage != null) ...[
-          const SizedBox(height: 6),
+          const SizedBox(height: AppConstants.avatarS),
           Text(
             errorMessage!,
             style: SpatiumTypography.small.copyWith(

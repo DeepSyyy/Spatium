@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:spatium/styles/colors.dart';
+import 'package:spatium/styles/constants.dart';
 import 'package:spatium/styles/typography.dart';
 import 'package:spatium/usable/pages/main_navigation_page.dart';
 
@@ -18,28 +19,21 @@ class WelcomePage extends StatelessWidget {
           SafeArea(
             bottom: false,
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24.0),
+              padding: const EdgeInsets.symmetric(horizontal: AppConstants.spacingXxl),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const SizedBox(height: 40),
+                  const SizedBox(height: AppConstants.spacing40),
                   Text(
                     'Spatium',
-                    style: SpatiumTypography.h1.copyWith(
-                      fontSize: 28,
-                      fontWeight: FontWeight.w700,
-                    ),
+                    style: SpatiumTypography.welcomeTitle,
                   ),
-                  const SizedBox(height: 12),
+                  const SizedBox(height: AppConstants.spacingM),
                   Text(
                     'Get to know yourself better, trace,\nembrace and review to be better version of\nyou!',
-                    style: SpatiumTypography.bodyRegular.copyWith(
-                      color: AppColor.placeholder,
-                      fontSize: 15,
-                      height: 1.5,
-                    ),
+                    style: SpatiumTypography.welcomeSubtitle,
                   ),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: AppConstants.spacingXl),
                 ],
               ),
             ),
@@ -129,11 +123,11 @@ class WelcomePage extends StatelessWidget {
 
                 // 3. Tombol
                 Positioned(
-                  bottom: 40,
-                  left: 24,
-                  right: 24,
+                  bottom: AppConstants.spacing40,
+                  left: AppConstants.spacingXxl,
+                  right: AppConstants.spacingXxl,
                   child: SizedBox(
-                    height: 56,
+                    height: AppConstants.buttonHeightM,
                     child: ElevatedButton(
                       onPressed: () {
                         Navigator.of(context).pushReplacement(
@@ -154,17 +148,14 @@ class WelcomePage extends StatelessWidget {
                       style: ElevatedButton.styleFrom(
                         backgroundColor: AppColor.primary,
                         foregroundColor: AppColor.white,
-                        elevation: 0,
+                        elevation: AppConstants.elevationNone,
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30),
+                          borderRadius: BorderRadius.circular(AppConstants.radiusXl),
                         ),
                       ),
                       child: Text(
                         'Mulai Curhat!',
-                        style: SpatiumTypography.button.copyWith(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
-                        ),
+                        style: SpatiumTypography.buttonText,
                       ),
                     ),
                   ),

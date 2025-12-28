@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:spatium/styles/colors.dart';
+import 'package:spatium/styles/constants.dart';
 import 'package:spatium/styles/typography.dart';
 
 /// A reusable elevated button with an icon and label.
@@ -30,10 +31,10 @@ class ButtonApp extends StatelessWidget {
     required this.onPressed,
     this.backgroundColor,
     this.foregroundColor,
-    this.elevation = 0,
-    this.padding = const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-    this.borderRadius = 20,
-    this.iconSize = 20,
+    this.elevation = AppConstants.elevationNone,
+    this.padding = const EdgeInsets.symmetric(horizontal: AppConstants.spacingL, vertical: AppConstants.spacingM),
+    this.borderRadius = AppConstants.spacingXl,
+    this.iconSize = AppConstants.iconS,
   });
 
   @override

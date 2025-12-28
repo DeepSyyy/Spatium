@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:spatium/styles/colors.dart';
+import 'package:spatium/styles/constants.dart';
 import 'package:spatium/styles/typography.dart';
 
 class CustomBottomNavBar extends StatelessWidget {
@@ -20,15 +21,15 @@ class CustomBottomNavBar extends StatelessWidget {
         color: AppColor.white,
         boxShadow: [
           BoxShadow(
-            color: AppColor.black.withOpacity(0.05),
-            blurRadius: 10,
+            color: AppColor.black.withOpacity(AppConstants.opacityLow),
+            blurRadius: AppConstants.blurRadiusM,
             offset: const Offset(0, -3),
           ),
         ],
       ),
       child: SafeArea(
         child: Container(
-          height: 70,
+          height: AppConstants.bottomNavHeight,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
@@ -50,36 +51,33 @@ class CustomBottomNavBar extends StatelessWidget {
       onTap: () => onTap(index),
       behavior: HitTestBehavior.opaque,
       child: Container(
-        width: 80,
-        padding: const EdgeInsets.symmetric(vertical: 8),
+        width: AppConstants.bottomNavItemWidth,
+        padding: const EdgeInsets.symmetric(vertical: AppConstants.spacingS),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             SvgPicture.asset(
               iconPath,
-              width: 24,
-              height: 24,
+              width: AppConstants.iconM,
+              height: AppConstants.iconM,
               colorFilter: ColorFilter.mode(
                 isSelected ? AppColor.black : AppColor.greyLight,
                 BlendMode.srcIn,
               ),
             ),
-            const SizedBox(height: 4),
+            const SizedBox(height: AppConstants.spacingXs),
             Text(
               label,
-              style: SpatiumTypography.small.copyWith(
-                fontWeight: FontWeight.w500,
-                color: isSelected ? AppColor.black : AppColor.greyLight,
-              ),
+              style: isSelected ? SpatiumTypography.navLabelSelected : SpatiumTypography.navLabel,
             ),
-            const SizedBox(height: 4),
+            const SizedBox(height: AppConstants.spacingXs),
             Container(
-              height: 3,
-              width: 40,
+              height: AppConstants.bottomNavIndicatorHeight,
+              width: AppConstants.bottomNavIndicatorWidth,
               decoration: BoxDecoration(
-                color: isSelected ? AppColor.black : Colors.transparent,
-                borderRadius: BorderRadius.circular(2),
+                color: isSelected ? AppColor.black : AppColor.transparent,
+                borderRadius: BorderRadius.circular(AppConstants.elevationLow),
               ),
             ),
           ],

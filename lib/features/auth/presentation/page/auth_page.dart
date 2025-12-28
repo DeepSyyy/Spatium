@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widget_previews.dart';
 import 'package:spatium/styles/colors.dart';
+import 'package:spatium/styles/constants.dart';
 import 'package:spatium/styles/typography.dart';
 
 class AuthPage extends StatelessWidget {
@@ -14,7 +15,7 @@ class AuthPage extends StatelessWidget {
       body: Column(
         children: [
           Padding(
-            padding: const EdgeInsets.only(left: 20.0, top: 32.0, right: 20.0),
+            padding: const EdgeInsets.only(left: AppConstants.spacingXl, top: AppConstants.spacing32, right: AppConstants.spacingXl),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -24,12 +25,12 @@ class AuthPage extends StatelessWidget {
                   "Spatium",
                   style: SpatiumTypography.textLarge,
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: AppConstants.spacingL),
                 Text(
                   "Get to know yourself better, trace, embrace and review to be better version of you!",
                   style: SpatiumTypography.bodyMedium,
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: AppConstants.spacingL),
               ],
             ),
           ),
@@ -44,7 +45,7 @@ class AuthPage extends StatelessWidget {
                   ),
                 ),
                 Positioned(
-                  bottom: 40,
+                  bottom: AppConstants.spacing40,
                   child: ElevatedButton(
                     onPressed: () {},
                     style: ElevatedButton.styleFrom(
@@ -52,7 +53,7 @@ class AuthPage extends StatelessWidget {
                       foregroundColor: AppColor.white,
                       padding: const EdgeInsets.symmetric(
                         horizontal: 114,
-                        vertical: 16,
+                        vertical: AppConstants.spacingL,
                       ),
                     ),
                     child: Text(
