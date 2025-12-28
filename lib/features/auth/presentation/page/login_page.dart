@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:spatium/core/services/google_sign_in_service.dart';
 import 'package:spatium/features/auth/presentation/providers/auth_notifier.dart';
+import 'package:spatium/features/auth/presentation/providers/auth_providers.dart';
 import 'package:spatium/features/auth/presentation/providers/auth_state.dart';
 import 'package:spatium/styles/colors.dart';
 import 'package:spatium/styles/constants.dart';
 import 'package:spatium/styles/typography.dart';
-import 'package:spatium/usable/button_app.dart';
-import 'package:spatium/usable/custom_text_field.dart';
 import 'package:spatium/usable/pages/main_navigation_page.dart';
 
 class LoginPage extends ConsumerStatefulWidget {
@@ -17,28 +17,79 @@ class LoginPage extends ConsumerStatefulWidget {
 }
 
 class _LoginPageState extends ConsumerState<LoginPage> {
-  final _recoveryCodeController = TextEditingController();
-  final _formKey = GlobalKey<FormState>();
-  bool _isError = false;
+  final _googleSignInService = GoogleSignInService();
+  bool _isLoading = false;
 
-  @override
-  void dispose() {
-    _recoveryCodeController.dispose();
-    super.dispose();
-  }
+  Future<void> _handleGoogleSignIn() async {
+    setState(() => _isLoading = true);
 
-  void _handleLogin() {
-    setState(() {
-      _isError = false;
-    });
+    try {
+      print('🔵 Starting Google Sign In process...');
+      final account = await _googleSignInService.signIn();
+      print('🔵 Received account: $account');
+      
+      if (account != null) {
+        print('✅ Account received successfully');
+        print('📧 Email: ${account.email}');
+        print('👤 Display Name: ${account.displayName}');
+        print('🆔 ID: ${account.id}');
+        
+        // Get user info
+        final googleId = account.id;
+        final email = account.email;
+        final displayName = account.displayName ?? email.split('@')[0];
+        final photoUrl = account.photoUrl;
 
-    if (_formKey.currentState?.validate() ?? false) {
-      final recoveryCode = _recoveryCodeController.text.trim();
-      ref.read(authNotifierProvider.notifier).login(recoveryCode);
-    } else {
-      setState(() {
-        _isError = true;
-      });
+        print('🔵 Calling backend login...');
+        // Login with backend
+        await ref.read(authNotifierProvider.notifier).googleLogin(
+          googleId: googleId,
+          email: email,
+          alias: displayName,
+          photoUrl: photoUrl,
+        );
+      } else {
+        print('⚠️ Account is null - sign in was cancelled or failed');
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Row(
+                children: [
+                  Icon(Icons.error, color: AppColor.white),
+                  const SizedBox(width: AppConstants.spacingS),
+                  const Expanded(
+                    child: Text('Google Sign In dibatalkan atau gagal'),
+                  ),
+                ],
+              ),
+              backgroundColor: AppColor.error,
+            ),
+          );
+        }
+      }
+    } catch (e, stackTrace) {
+      print('❌ Error during Google Sign In: $e');
+      print('Stack trace: $stackTrace');
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Row(
+              children: [
+                Icon(Icons.error, color: AppColor.white),
+                const SizedBox(width: AppConstants.spacingS),
+                Expanded(
+                  child: Text('Login gagal: ${e.toString()}'),
+                ),
+              ],
+            ),
+            backgroundColor: AppColor.error,
+          ),
+        );
+      }
+    } finally {
+      if (mounted) {
+        setState(() => _isLoading = false);
+      }
     }
   }
 
@@ -48,6 +99,9 @@ class _LoginPageState extends ConsumerState<LoginPage> {
     ref.listen<AuthState>(authNotifierProvider, (previous, next) {
       next.when(
         authenticated: (authResponse) {
+          // Invalidate login status provider to refresh cache
+          ref.invalidate(isLoggedInProvider);
+          
           // Show success message
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
@@ -119,7 +173,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
     });
 
     final authState = ref.watch(authNotifierProvider);
-    final isLoading = authState.maybeWhen(
+    final isLoading = _isLoading || authState.maybeWhen(
       loading: () => true,
       orElse: () => false,
     );
@@ -131,7 +185,11 @@ class _LoginPageState extends ConsumerState<LoginPage> {
         elevation: AppConstants.elevationNone,
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: AppColor.secondary),
-          onPressed: isLoading ? null : () => Navigator.pop(context),
+          onPressed: isLoading ? null : () {
+            if (Navigator.canPop(context)) {
+              Navigator.pop(context);
+            }
+          },
         ),
         title: Text(
           'Masuk',
@@ -159,88 +217,106 @@ class _LoginPageState extends ConsumerState<LoginPage> {
           ),
           // Content
           SafeArea(
-            child: SingleChildScrollView(
+            child: Padding(
               padding: EdgeInsets.symmetric(
                 horizontal: MediaQuery.of(context).size.width * 0.05,
                 vertical: 16,
               ),
-              child: Form(
-                key: _formKey,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const SizedBox(height: AppConstants.spacingXl),
-                    
-                    // Info Text
-                    Text(
-                      'Masukkan recovery code untuk login',
-                      style: SpatiumTypography.bodyMedium,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Spacer(),
+                  
+                  // Logo or App Name
+                  Text(
+                    'Spatium',
+                    style: SpatiumTypography.h1.copyWith(
+                      fontSize: 48,
+                      color: AppColor.primary,
                     ),
-                    const SizedBox(height: AppConstants.spacingXxl),
+                  ),
+                  const SizedBox(height: AppConstants.spacingS),
+                  
+                  Text(
+                    'Masuk dengan akun Google Anda',
+                    style: SpatiumTypography.bodyMedium.copyWith(
+                      color: AppColor.secondary,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                  
+                  const Spacer(),
 
-                    // Recovery Code Input
-                    Text(
-                      'Recovery Code*',
-                      style: SpatiumTypography.labelSemiBold,
-                    ),
-                    const SizedBox(height: AppConstants.spacingS),
-                    SpatiumTextField(
-                      controller: _recoveryCodeController,
-                      hintText: 'Masukkan recovery code Anda',
-                      isError: _isError,
-                      enabled: !isLoading,
-                      validator: (value) {
-                        if (value == null || value.trim().isEmpty) {
-                          return 'Recovery code tidak boleh kosong';
-                        }
-                        if (value.trim().length < 8) {
-                          return 'Recovery code tidak valid';
-                        }
-                        return null;
-                      },
-                    ),
-                    const SizedBox(height: AppConstants.spacingL),
-
-                    // Info about recovery code
-                    Container(
-                      padding: const EdgeInsets.all(AppConstants.spacingM),
-                      decoration: BoxDecoration(
-                        color: AppColor.hintBackground,
-                        borderRadius: BorderRadius.circular(AppConstants.radiusS),
-                      ),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Icon(
-                            Icons.info_outline,
-                            color: AppColor.secondary,
-                            size: AppConstants.iconS,
-                          ),
-                          const SizedBox(width: AppConstants.spacingS),
-                          Expanded(
-                            child: Text(
-                              'Recovery code diberikan saat Anda pertama kali mendaftar. Simpan dengan aman untuk login kembali.',
-                              style: SpatiumTypography.small.copyWith(
-                                color: AppColor.secondary,
+                  // Google Sign In Button
+                  SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton.icon(
+                      onPressed: isLoading ? null : _handleGoogleSignIn,
+                      icon: isLoading
+                          ? SizedBox(
+                              width: 20,
+                              height: 20,
+                              child: CircularProgressIndicator(
+                                strokeWidth: 2,
+                                color: AppColor.white,
                               ),
+                            )
+                          : Image.asset(
+                              'assets/icons/google_logo.png',
+                              height: 24,
+                              errorBuilder: (context, error, stackTrace) =>
+                                  Icon(Icons.login, color: AppColor.white),
+                            ),
+                      label: Text(
+                        isLoading ? 'Memproses...' : 'Masuk dengan Google',
+                        style: SpatiumTypography.button.copyWith(
+                          color: AppColor.white,
+                        ),
+                      ),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: AppColor.primary,
+                        padding: const EdgeInsets.symmetric(
+                          vertical: AppConstants.spacingM,
+                        ),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(AppConstants.radiusS),
+                        ),
+                      ),
+                    ),
+                  ),
+                  
+                  const SizedBox(height: AppConstants.spacingXxl),
+                  
+                  // Info
+                  Container(
+                    padding: const EdgeInsets.all(AppConstants.spacingM),
+                    decoration: BoxDecoration(
+                      color: AppColor.hintBackground,
+                      borderRadius: BorderRadius.circular(AppConstants.radiusS),
+                    ),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Icon(
+                          Icons.info_outline,
+                          color: AppColor.secondary,
+                          size: AppConstants.iconS,
+                        ),
+                        const SizedBox(width: AppConstants.spacingS),
+                        Expanded(
+                          child: Text(
+                            'Kami menggunakan Google Sign In untuk keamanan dan kemudahan akses. Data Anda akan tersimpan dengan aman.',
+                            style: SpatiumTypography.small.copyWith(
+                              color: AppColor.secondary,
                             ),
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
-                    const SizedBox(height: AppConstants.spacingXxl),
-
-                    // Login Button
-                    SizedBox(
-                      width: double.infinity,
-                      child: ButtonApp(
-                        text: 'Masuk',
-                        onPressed: isLoading ? null : _handleLogin,
-                        isLoading: isLoading,
-                      ),
-                    ),
-                  ],
-                ),
+                  ),
+                  
+                  const SizedBox(height: AppConstants.spacingXxl),
+                ],
               ),
             ),
           ),

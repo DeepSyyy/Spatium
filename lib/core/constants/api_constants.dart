@@ -1,10 +1,23 @@
 /// API Constants
 /// Contains all API-related constants including base URL, endpoints, and timeouts
 class ApiConstants {
-  // Base URL - Update this based on your environment
-  static const String baseUrl = 'http://localhost:8080/api/v1';
+  // ============================================
+  // 🔧 PILIH SALAH SATU BASE URL SESUAI KEBUTUHAN
+  // ============================================
   
-  // Production URL (Railway)
+  // 1️⃣ ANDROID EMULATOR (AVD) - localhost laptop
+  // static const String baseUrl = 'http://10.0.2.2:8080/api/v1';
+  
+  // 2️⃣ ANDROID DEVICE (HP via USB) - Gunakan salah satu:
+  //    a) Ngrok URL (jika pakai ngrok)
+  static const String baseUrl = 'https://marleigh-sanguinolent-ari.ngrok-free.dev/api/v1';
+  //    b) WiFi IP laptop (jika di network yang sama)
+  // static const String baseUrl = 'http://192.168.1.100:8080/api/v1';
+  
+  // 3️⃣ iOS SIMULATOR / WEB - localhost
+  // static const String baseUrl = 'http://localhost:8080/api/v1';
+  
+  // 4️⃣ PRODUCTION (Railway/Cloud)
   // static const String baseUrl = 'https://your-app.railway.app/api/v1';
   
   // Timeouts
@@ -15,6 +28,7 @@ class ApiConstants {
   // Auth Endpoints
   static const String register = '/register';
   static const String login = '/login';
+  static const String googleLogin = '/auth/google';
   
   // Posts Endpoints
   static const String posts = '/posts';

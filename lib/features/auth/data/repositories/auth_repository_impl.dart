@@ -107,6 +107,50 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
+  Future<Either<Failure, AuthResponseEntity>> googleLogin({
+    required String googleId,
+    required String email,
+    String? alias,
+    String? photoUrl,
+  }) async {
+    try {
+      // Call API
+      final response = await remoteDataSource.googleLogin(
+        googleId: googleId,
+        email: email,
+        alias: alias,
+        photoUrl: photoUrl,
+      );
+
+      // Cache auth data
+      await localDataSource.cacheAuthData(
+        token: response.token,
+        userId: response.user.publicId,
+        alias: response.user.alias,
+        recoveryCode: response.user.recoveryCode ?? '',
+      );
+
+      // Cache user data
+      await localDataSource.cacheUser(response.user);
+
+      return Right(response.toEntity());
+    } on NetworkException catch (e) {
+      return Left(NetworkFailure(message: e.message));
+    } on ServerException catch (e) {
+      return Left(ServerFailure(
+        message: e.message,
+        statusCode: e.statusCode,
+      ));
+    } on ValidationException catch (e) {
+      return Left(ValidationFailure(message: e.message));
+    } catch (e) {
+      return Left(UnexpectedFailure(
+        message: 'Terjadi kesalahan: ${e.toString()}',
+      ));
+    }
+  }
+
+  @override
   Future<Either<Failure, UserEntity>> getCurrentUser() async {
     try {
       final user = await localDataSource.getCachedUser();

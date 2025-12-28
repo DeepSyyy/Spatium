@@ -5,6 +5,7 @@ import 'package:spatium/features/auth/data/datasources/auth_remote_data_source.d
 import 'package:spatium/features/auth/data/repositories/auth_repository_impl.dart';
 import 'package:spatium/features/auth/domain/repositories/auth_repository.dart';
 import 'package:spatium/features/auth/domain/usecases/get_current_user_usecase.dart';
+import 'package:spatium/features/auth/domain/usecases/google_login.dart';
 import 'package:spatium/features/auth/domain/usecases/login_usecase.dart';
 import 'package:spatium/features/auth/domain/usecases/logout_usecase.dart';
 import 'package:spatium/features/auth/domain/usecases/register_usecase.dart';
@@ -53,6 +54,12 @@ final registerUseCaseProvider = Provider<RegisterUseCase>((ref) {
 final loginUseCaseProvider = Provider<LoginUseCase>((ref) {
   final repository = ref.watch(authRepositoryProvider);
   return LoginUseCase(repository);
+});
+
+/// Google Login Use Case Provider
+final googleLoginUseCaseProvider = Provider<GoogleLoginUseCase>((ref) {
+  final repository = ref.watch(authRepositoryProvider);
+  return GoogleLoginUseCase(repository);
 });
 
 /// Logout Use Case Provider

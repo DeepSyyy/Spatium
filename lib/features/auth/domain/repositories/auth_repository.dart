@@ -11,6 +11,14 @@ abstract class AuthRepository {
 
   /// Login with recovery code
   Future<Either<Failure, AuthResponseEntity>> login(String recoveryCode);
+  
+  /// Login with Google
+  Future<Either<Failure, AuthResponseEntity>> googleLogin({
+    required String googleId,
+    required String email,
+    String? alias,
+    String? photoUrl,
+  });
 
   /// Get current user
   Future<Either<Failure, UserEntity>> getCurrentUser();

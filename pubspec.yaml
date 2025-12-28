@@ -47,6 +47,9 @@ dependencies:
   # Secure Storage
   flutter_secure_storage: ^9.2.2
   
+  # Authentication
+  google_sign_in: ^6.2.2
+  
   # Functional Programming & Error Handling
   dartz: ^0.10.1
   

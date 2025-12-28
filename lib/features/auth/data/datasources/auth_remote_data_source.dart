@@ -10,6 +10,12 @@ import 'package:spatium/features/auth/data/models/register_request.dart';
 abstract class AuthRemoteDataSource {
   Future<AuthResponseModel> register(String alias);
   Future<AuthResponseModel> login(String recoveryCode);
+  Future<AuthResponseModel> googleLogin({
+    required String googleId,
+    required String email,
+    String? alias,
+    String? photoUrl,
+  });
 }
 
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
@@ -27,7 +33,9 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       );
 
       if (response.statusCode == 201 || response.statusCode == 200) {
-        return AuthResponseModel.fromJson(response.data);
+        // Backend returns {data: {user, token}}
+        final data = response.data['data'];
+        return AuthResponseModel.fromJson(data);
       } else {
         throw ServerException(
           message: response.data['message'] ?? 'Registration failed',
@@ -54,7 +62,9 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       );
 
       if (response.statusCode == 200) {
-        return AuthResponseModel.fromJson(response.data);
+        // Backend returns {data: {user, token}}
+        final data = response.data['data'];
+        return AuthResponseModel.fromJson(data);
       } else {
         throw ServerException(
           message: response.data['message'] ?? 'Login failed',
@@ -67,6 +77,44 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       }
       throw ServerException(
         message: 'Failed to login: ${e.toString()}',
+      );
+    }
+  }
+
+  @override
+  Future<AuthResponseModel> googleLogin({
+    required String googleId,
+    required String email,
+    String? alias,
+    String? photoUrl,
+  }) async {
+    try {
+      final response = await apiClient.post(
+        ApiConstants.googleLogin,
+        data: {
+          'google_id': googleId,
+          'email': email,
+          if (alias != null) 'alias': alias,
+          if (photoUrl != null) 'photo_url': photoUrl,
+        },
+      );
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        // Backend returns {data: {user, token}}
+        final data = response.data['data'];
+        return AuthResponseModel.fromJson(data);
+      } else {
+        throw ServerException(
+          message: response.data['message'] ?? 'Google login failed',
+          statusCode: response.statusCode,
+        );
+      }
+    } catch (e) {
+      if (e is ServerException || e is NetworkException) {
+        rethrow;
+      }
+      throw ServerException(
+        message: 'Failed to login with Google: ${e.toString()}',
       );
     }
   }

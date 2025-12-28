@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:spatium/features/auth/presentation/page/recovery_code_dialog.dart';
-import 'package:spatium/features/auth/presentation/providers/auth_notifier.dart';
-import 'package:spatium/features/auth/presentation/providers/auth_state.dart';
+import 'package:spatium/features/auth/presentation/providers/auth_notifier.dart';import 'package:spatium/features/auth/presentation/providers/auth_providers.dart';import 'package:spatium/features/auth/presentation/providers/auth_state.dart';
 import 'package:spatium/styles/colors.dart';
 import 'package:spatium/styles/constants.dart';
 import 'package:spatium/styles/typography.dart';
@@ -49,6 +48,9 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
     ref.listen<AuthState>(authNotifierProvider, (previous, next) {
       next.when(
         authenticated: (authResponse) {
+          // Invalidate login status provider to refresh cache
+          ref.invalidate(isLoggedInProvider);
+          
           // Show recovery code dialog
           showDialog(
             context: context,
@@ -113,7 +115,11 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
         elevation: AppConstants.elevationNone,
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: AppColor.secondary),
-          onPressed: isLoading ? null : () => Navigator.pop(context),
+          onPressed: isLoading ? null : () {
+            if (Navigator.canPop(context)) {
+              Navigator.pop(context);
+            }
+          },
         ),
         title: Text(
           'Daftar Akun',

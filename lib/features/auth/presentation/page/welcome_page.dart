@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:spatium/features/auth/presentation/page/register_page.dart';
 import 'package:spatium/features/auth/presentation/page/login_page.dart';
+import 'package:spatium/features/auth/presentation/page/register_page.dart';
 import 'package:spatium/styles/colors.dart';
 import 'package:spatium/styles/constants.dart';
 import 'package:spatium/styles/typography.dart';
