@@ -8,14 +8,18 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColor.white,
       appBar: AppBar(
-        title: const Text('Home'),
+        title: Text('Home', style: SpatiumTypography.appBarTitle),
         backgroundColor: AppColor.white,
-        foregroundColor: AppColor.textPrimary,
+        foregroundColor: AppColor.black,
         elevation: 0,
       ),
       body: Center(
-        child: Text('Home Page', style: SpatiumTypography.bodyMedium),
+        child: Text(
+          'Home Page',
+          style: SpatiumTypography.pageTitle,
+        ),
       ),
     );
   }

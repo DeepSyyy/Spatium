@@ -35,22 +35,34 @@ abstract class AppColor {
   static const error = Color(0xFFEF4444);
 
   // --- Additional UI Colors ---
-  // Welcome Page
-  static const welcomeArchBackground = Color(0xFFEFF3FD);
+  // Welcome page arch background
+  static const archBackground = Color(0xFFEFF3FD);
+  // Create curhat page hint background
+  static const hintBackground = Color(0xFFF3F5FE);
+  // Chat AI robot color
+  static const chatRobotPrimary = Color(0xFFB0C4C7);
+  static const chatRobotSecondary = Color(0xFF8FA5A8);
+  // Light background
+  static const backgroundLight = Color(0xFFF5F5F5);
+  // Grey colors
+  static const grey = Colors.grey;
+  static const greyLight = Color(0xFF9CA3AF);
+  // Black (for consistency)
+  static const black = Colors.black;
+  static const black87 = Colors.black87;
 
-  // Chat AI Page
-  static const chatBackground = Color(0xFFF5F5F5);
-  static const robotColor = Color(0xFFB0C4C7);
-  static const robotDark = Color(0xFF8FA5A8);
-  static const sendButtonBackground = Color(0xFF000000);
+  // --- Mood Colors ---
+  static const moodHappyBg = Color(0xFFFFF9C4); // Kuning muda
+  static const moodNeutralBg = Color(0xFFE0E0E0); // Abu-abu
+  static const moodSadBg = Color(0xFFBBDEFB); // Biru muda
+  static const moodAngryBg = Color(0xFFFFCDD2); // Merah muda
+
+  // --- Gradient Colors ---
   static const gradientPurple = Color(0xFF8B5CF6);
   static const gradientPink = Color(0xFFEC4899);
 
-  // General Text Colors
-  static const textPrimary = Color(0xFF000000);
-  static const textSecondary = Color(0xFF6B7280);
-  static const textGrey = Color(0xFF9CA3AF);
-  static const black87 = Color(0xDE000000);
+  // --- Dashed Border ---
+  static const dashedBorderPurple = Color(0xFF9333EA);
 }
 
 abstract class _BrandColor {

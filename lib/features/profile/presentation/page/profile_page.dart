@@ -8,14 +8,18 @@ class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColor.white,
       appBar: AppBar(
-        title: const Text('Profil'),
+        title: Text('Profil', style: SpatiumTypography.appBarTitle),
         backgroundColor: AppColor.white,
-        foregroundColor: AppColor.textPrimary,
+        foregroundColor: AppColor.black,
         elevation: 0,
       ),
       body: Center(
-        child: Text('Profile Page', style: SpatiumTypography.bodyMedium),
+        child: Text(
+          'Profile Page',
+          style: SpatiumTypography.pageTitle,
+        ),
       ),
     );
   }

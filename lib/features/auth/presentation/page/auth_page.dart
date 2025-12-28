@@ -10,6 +10,7 @@ class AuthPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColor.white,
       body: Column(
         children: [
           Padding(
@@ -19,11 +20,14 @@ class AuthPage extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const SizedBox(height: 23),
-                Text("Spatium", style: SpatiumTypography.authTitle),
+                Text(
+                  "Spatium",
+                  style: SpatiumTypography.textLarge,
+                ),
                 const SizedBox(height: 16),
                 Text(
                   "Get to know yourself better, trace, embrace and review to be better version of you!",
-                  style: SpatiumTypography.bodyGrey,
+                  style: SpatiumTypography.bodyMedium,
                 ),
                 const SizedBox(height: 16),
               ],
@@ -50,13 +54,10 @@ class AuthPage extends StatelessWidget {
                         horizontal: 114,
                         vertical: 16,
                       ),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30),
-                      ),
                     ),
                     child: Text(
                       "Mulai Curhat",
-                      style: SpatiumTypography.buttonLarge,
+                      style: SpatiumTypography.button,
                     ),
                   ),
                 ),

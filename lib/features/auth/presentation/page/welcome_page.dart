@@ -23,11 +23,21 @@ class WelcomePage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const SizedBox(height: 40),
-                  Text('Spatium', style: SpatiumTypography.welcomeTitle),
+                  Text(
+                    'Spatium',
+                    style: SpatiumTypography.h1.copyWith(
+                      fontSize: 28,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
                   const SizedBox(height: 12),
                   Text(
                     'Get to know yourself better, trace,\nembrace and review to be better version of\nyou!',
-                    style: SpatiumTypography.welcomeSubtitle,
+                    style: SpatiumTypography.bodyRegular.copyWith(
+                      color: AppColor.placeholder,
+                      fontSize: 15,
+                      height: 1.5,
+                    ),
                   ),
                   const SizedBox(height: 20),
                 ],
@@ -44,7 +54,9 @@ class WelcomePage extends StatelessWidget {
                 Positioned.fill(
                   child: ClipPath(
                     clipper: ArcClipper(),
-                    child: Container(color: AppColor.welcomeArchBackground),
+                    child: Container(
+                      color: AppColor.archBackground,
+                    ),
                   ),
                 ),
 
@@ -54,99 +66,65 @@ class WelcomePage extends StatelessWidget {
                 // Happy Flower (Tengah Atas)
                 const _PositionedMood(
                   asset: 'happy.svg',
-                  top: 0,
-                  left: 0,
-                  right: 0,
-                  size: 105, // Center
+                  top: 0, left: 0, right: 0, size: 105 // Center
                 ),
                 // Angry Star (Kiri Atas)
                 const _PositionedMood(
                   asset: 'angry.svg',
-                  top: 45,
-                  left: 20,
-                  angle: -0.2,
-                  size: 95,
+                  top: 45, left: 20, angle: -0.2, size: 95
                 ),
                 // Sad Ghost (Kanan Atas)
                 const _PositionedMood(
                   asset: 'sad.svg',
-                  top: 35,
-                  right: 15,
-                  angle: 0.1,
-                  size: 100,
+                  top: 35, right: 15, angle: 0.1, size: 100
                 ),
 
                 // --- BARIS 2 (Tengah) ---
                 // Neutral Square (Tengah agak ke bawah dari baris 1)
                 const _PositionedMood(
                   asset: 'neutral.svg',
-                  top: 140,
-                  left: 0,
-                  right: 0,
-                  angle: -0.05,
-                  size: 100, // Center
+                  top: 140, left: 0, right: 0, angle: -0.05, size: 100 // Center
                 ),
                 // Angry Star (Kanan Tengah - Jauh ke kanan)
                 const _PositionedMood(
                   asset: 'angry.svg',
-                  top: 150,
-                  right: -10,
-                  angle: 0.2,
-                  size: 105,
+                  top: 150, right: -10, angle: 0.2, size: 105
                 ),
                 // Sad Ghost (Kiri Tengah - Jauh ke kiri)
                 const _PositionedMood(
                   asset: 'sad.svg',
-                  top: 190,
-                  left: 10,
-                  angle: -0.1,
-                  size: 100,
+                  top: 190, left: 10, angle: -0.1, size: 100
                 ),
 
                 // --- BARIS 3 (Bawah) ---
                 // Happy Flower (Kiri Bawah - Hampir keluar layar)
                 const _PositionedMood(
                   asset: 'happy.svg',
-                  top: 280,
-                  left: -25,
-                  angle: -0.3,
-                  size: 100,
+                  top: 280, left: -25, angle: -0.3, size: 100
                 ),
                 // Neutral Square (Kanan Bawah)
                 const _PositionedMood(
                   asset: 'neutral.svg',
-                  bottom: 150,
-                  right: 40,
-                  angle: 0.1,
-                  size: 95,
+                  bottom: 150, right: 40, angle: 0.1, size: 95
                 ),
-
+                
                 // --- BARIS 4 (Area Tombol & Paling Bawah) ---
                 // Happy Flower (Tengah Bawah - Di belakang tombol)
                 const _PositionedMood(
                   asset: 'happy.svg',
-                  bottom: 70,
-                  left: 0,
-                  right: 0,
-                  size: 110, // Center
+                  bottom: 70, left: 0, right: 0, size: 110 // Center
                 ),
-
+                
                 // Dekorasi Pojok Bawah (Potongan)
                 // Pojok Kiri Bawah
                 const _PositionedMood(
                   asset: 'neutral.svg',
-                  bottom: -20,
-                  left: -20,
-                  angle: 0.1,
-                  size: 100,
+                  bottom: -20, left: -20, angle: 0.1, size: 100
                 ),
                 // Pojok Kanan Bawah
                 const _PositionedMood(
                   asset: 'angry.svg',
-                  bottom: -15,
-                  right: -25,
-                  angle: -0.2,
-                  size: 115,
+                  bottom: -15, right: -25, angle: -0.2, size: 115
                 ),
 
                 // 3. Tombol
@@ -160,24 +138,16 @@ class WelcomePage extends StatelessWidget {
                       onPressed: () {
                         Navigator.of(context).pushReplacement(
                           PageRouteBuilder(
-                            pageBuilder:
-                                (context, animation, secondaryAnimation) =>
-                                    const MainNavigationPage(),
+                            pageBuilder: (context, animation, secondaryAnimation) =>
+                                const MainNavigationPage(),
                             transitionsBuilder:
-                                (
-                                  context,
-                                  animation,
-                                  secondaryAnimation,
-                                  child,
-                                ) {
-                                  return FadeTransition(
-                                    opacity: animation,
-                                    child: child,
-                                  );
-                                },
-                            transitionDuration: const Duration(
-                              milliseconds: 400,
-                            ),
+                                (context, animation, secondaryAnimation, child) {
+                              return FadeTransition(
+                                opacity: animation,
+                                child: child,
+                              );
+                            },
+                            transitionDuration: const Duration(milliseconds: 400),
                           ),
                         );
                       },
@@ -191,7 +161,10 @@ class WelcomePage extends StatelessWidget {
                       ),
                       child: Text(
                         'Mulai Curhat!',
-                        style: SpatiumTypography.buttonLarge,
+                        style: SpatiumTypography.button.copyWith(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
                     ),
                   ),
@@ -211,15 +184,17 @@ class ArcClipper extends CustomClipper<Path> {
   @override
   Path getClip(Size size) {
     Path path = Path();
-    double curveHeight = 50.0;
+    double curveHeight = 50.0; 
     path.moveTo(0, curveHeight);
-    path.quadraticBezierTo(size.width / 2, 0, size.width, curveHeight);
+    path.quadraticBezierTo(
+      size.width / 2, 0, 
+      size.width, curveHeight 
+    );
     path.lineTo(size.width, size.height);
     path.lineTo(0, size.height);
     path.close();
     return path;
   }
-
   @override
   bool shouldReclip(CustomClipper<Path> oldClipper) => false;
 }
@@ -230,7 +205,7 @@ class _PositionedMood extends StatelessWidget {
   final double? bottom;
   final double? left;
   final double? right;
-  final double angle;
+  final double angle; 
   final double size;
 
   const _PositionedMood({

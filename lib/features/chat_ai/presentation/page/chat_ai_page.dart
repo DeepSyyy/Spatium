@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:spatium/styles/colors.dart';
 import 'package:spatium/styles/typography.dart';
 
@@ -8,13 +9,16 @@ class ChatAIPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColor.chatBackground,
+      backgroundColor: AppColor.backgroundLight,
       appBar: AppBar(
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios, color: AppColor.textPrimary),
+          icon: Icon(Icons.arrow_back_ios, color: AppColor.black),
           onPressed: () => Navigator.pop(context),
         ),
-        title: Text('Chat AI', style: SpatiumTypography.chatTitle),
+        title: Text(
+          'Chat AI',
+          style: SpatiumTypography.appBarTitle,
+        ),
         backgroundColor: AppColor.white,
         elevation: 0,
         centerTitle: true,
@@ -30,7 +34,7 @@ class ChatAIPage extends StatelessWidget {
                     width: 120,
                     height: 120,
                     decoration: BoxDecoration(
-                      color: AppColor.robotColor,
+                      color: AppColor.chatRobotPrimary,
                       borderRadius: BorderRadius.circular(20),
                     ),
                     child: Stack(
@@ -45,7 +49,7 @@ class ChatAIPage extends StatelessWidget {
                               Container(
                                 width: 20,
                                 height: 20,
-                                decoration: const BoxDecoration(
+                                decoration: BoxDecoration(
                                   color: AppColor.white,
                                   shape: BoxShape.circle,
                                 ),
@@ -53,8 +57,8 @@ class ChatAIPage extends StatelessWidget {
                                   child: Container(
                                     width: 8,
                                     height: 8,
-                                    decoration: const BoxDecoration(
-                                      color: AppColor.textPrimary,
+                                    decoration: BoxDecoration(
+                                      color: AppColor.black,
                                       shape: BoxShape.circle,
                                     ),
                                   ),
@@ -64,7 +68,7 @@ class ChatAIPage extends StatelessWidget {
                               Container(
                                 width: 20,
                                 height: 20,
-                                decoration: const BoxDecoration(
+                                decoration: BoxDecoration(
                                   color: AppColor.white,
                                   shape: BoxShape.circle,
                                 ),
@@ -72,8 +76,8 @@ class ChatAIPage extends StatelessWidget {
                                   child: Container(
                                     width: 8,
                                     height: 8,
-                                    decoration: const BoxDecoration(
-                                      color: AppColor.textPrimary,
+                                    decoration: BoxDecoration(
+                                      color: AppColor.black,
                                       shape: BoxShape.circle,
                                     ),
                                   ),
@@ -89,7 +93,7 @@ class ChatAIPage extends StatelessWidget {
                             width: 30,
                             height: 3,
                             decoration: BoxDecoration(
-                              color: AppColor.textPrimary,
+                              color: AppColor.black,
                               borderRadius: BorderRadius.circular(2),
                             ),
                           ),
@@ -103,15 +107,15 @@ class ChatAIPage extends StatelessWidget {
                               Container(
                                 width: 8,
                                 height: 8,
-                                decoration: const BoxDecoration(
-                                  color: AppColor.robotDark,
+                                decoration: BoxDecoration(
+                                  color: AppColor.chatRobotSecondary,
                                   shape: BoxShape.circle,
                                 ),
                               ),
                               Container(
                                 width: 2,
                                 height: 10,
-                                color: AppColor.robotDark,
+                                color: AppColor.chatRobotSecondary,
                               ),
                             ],
                           ),
@@ -124,7 +128,7 @@ class ChatAIPage extends StatelessWidget {
                             width: 15,
                             height: 25,
                             decoration: BoxDecoration(
-                              color: AppColor.robotDark,
+                              color: AppColor.chatRobotSecondary,
                               borderRadius: BorderRadius.circular(5),
                             ),
                           ),
@@ -136,7 +140,7 @@ class ChatAIPage extends StatelessWidget {
                             width: 15,
                             height: 25,
                             decoration: BoxDecoration(
-                              color: AppColor.robotDark,
+                              color: AppColor.chatRobotSecondary,
                               borderRadius: BorderRadius.circular(5),
                             ),
                           ),
@@ -159,15 +163,12 @@ class ChatAIPage extends StatelessWidget {
                           width: 20,
                           height: 20,
                           decoration: BoxDecoration(
-                            gradient: const LinearGradient(
-                              colors: [
-                                AppColor.gradientPurple,
-                                AppColor.gradientPink,
-                              ],
+                            gradient: LinearGradient(
+                              colors: [AppColor.gradientPurple, AppColor.gradientPink],
                             ),
                             borderRadius: BorderRadius.circular(5),
                           ),
-                          child: const Icon(
+                          child: Icon(
                             Icons.auto_awesome,
                             color: AppColor.white,
                             size: 12,
@@ -177,7 +178,7 @@ class ChatAIPage extends StatelessWidget {
                         Flexible(
                           child: Text(
                             'Halo, apa yang ingin kamu ceritakkan hari ini?',
-                            style: SpatiumTypography.chatMessage,
+                            style: SpatiumTypography.chatSmall,
                           ),
                         ),
                       ],
@@ -193,7 +194,7 @@ class ChatAIPage extends StatelessWidget {
               color: AppColor.white,
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.05),
+                  color: AppColor.black.withOpacity(0.05),
                   blurRadius: 10,
                   offset: const Offset(0, -3),
                 ),
@@ -205,13 +206,13 @@ class ChatAIPage extends StatelessWidget {
                   child: Container(
                     padding: const EdgeInsets.symmetric(horizontal: 16),
                     decoration: BoxDecoration(
-                      color: AppColor.chatBackground,
+                      color: AppColor.backgroundLight,
                       borderRadius: BorderRadius.circular(25),
                     ),
                     child: TextField(
                       decoration: InputDecoration(
                         hintText: 'Tulis pesanmu ...',
-                        hintStyle: SpatiumTypography.chatHint,
+                        hintStyle: SpatiumTypography.hint,
                         border: InputBorder.none,
                       ),
                     ),
@@ -221,11 +222,11 @@ class ChatAIPage extends StatelessWidget {
                 Container(
                   width: 48,
                   height: 48,
-                  decoration: const BoxDecoration(
-                    color: AppColor.sendButtonBackground,
+                  decoration: BoxDecoration(
+                    color: AppColor.black,
                     shape: BoxShape.circle,
                   ),
-                  child: const Icon(
+                  child: Icon(
                     Icons.send,
                     color: AppColor.white,
                     size: 20,

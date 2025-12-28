@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'colors.dart';
+import 'package:spatium/styles/colors.dart';
 
 class SpatiumTypography {
   // Base font family
@@ -55,72 +55,34 @@ class SpatiumTypography {
     color: AppColor.secondary,
   );
 
-  // Welcome Page Title (Large)
-  static TextStyle get welcomeTitle => const TextStyle(
+  // --- Additional Text Styles ---
+
+  // Large heading for page titles (28px)
+  static TextStyle get h1Large => const TextStyle(
     fontFamily: _fontFamily,
     fontSize: 28,
     fontWeight: FontWeight.w700,
     color: AppColor.secondary,
+    letterSpacing: -0.5,
   );
 
-  // Welcome Page Subtitle
-  static TextStyle get welcomeSubtitle => const TextStyle(
+  // Medium heading (20px)
+  static TextStyle get h2 => const TextStyle(
     fontFamily: _fontFamily,
-    fontSize: 15,
-    fontWeight: FontWeight.w400,
-    color: AppColor.placeholder,
-    height: 1.5,
+    fontSize: 20,
+    fontWeight: FontWeight.w700,
+    color: AppColor.secondary,
   );
 
-  // Chat AI Title
-  static TextStyle get chatTitle => const TextStyle(
-    fontFamily: _fontFamily,
-    fontSize: 18,
-    fontWeight: FontWeight.w600,
-    color: AppColor.textPrimary,
-  );
-
-  // Chat AI Message Text
-  static TextStyle get chatMessage => const TextStyle(
-    fontFamily: _fontFamily,
-    fontSize: 12,
-    fontWeight: FontWeight.w400,
-    color: AppColor.black87,
-  );
-
-  // Chat AI Hint Text
-  static TextStyle get chatHint => const TextStyle(
-    fontFamily: _fontFamily,
-    fontSize: 14,
-    fontWeight: FontWeight.w400,
-    color: AppColor.textGrey,
-  );
-
-  // AppBar Title
+  // AppBar title style (18px)
   static TextStyle get appBarTitle => const TextStyle(
     fontFamily: _fontFamily,
     fontSize: 18,
     fontWeight: FontWeight.w600,
-    color: AppColor.textPrimary,
+    color: AppColor.black,
   );
 
-  // Body Medium (untuk halaman simple)
-  static TextStyle get bodyMedium => const TextStyle(
-    fontFamily: _fontFamily,
-    fontSize: 20,
-    fontWeight: FontWeight.w400,
-    color: AppColor.secondary,
-  );
-
-  // Body with Grey Color
-  static TextStyle get bodyGrey => const TextStyle(
-    fontFamily: _fontFamily,
-    fontSize: 16,
-    fontWeight: FontWeight.w400,
-    color: AppColor.textGrey,
-  );
-
-  // Button Large
+  // Button text large (16px)
   static TextStyle get buttonLarge => const TextStyle(
     fontFamily: _fontFamily,
     fontSize: 16,
@@ -128,11 +90,52 @@ class SpatiumTypography {
     color: AppColor.white,
   );
 
-  // Auth Page Title
-  static TextStyle get authTitle => const TextStyle(
+  // Body text with grey color (15px)
+  static TextStyle get bodyGrey => const TextStyle(
+    fontFamily: _fontFamily,
+    fontSize: 15,
+    fontWeight: FontWeight.w400,
+    color: AppColor.placeholder,
+    height: 1.5,
+  );
+
+  // Body text standard size (16px)
+  static TextStyle get bodyMedium => const TextStyle(
+    fontFamily: _fontFamily,
+    fontSize: 16,
+    fontWeight: FontWeight.w400,
+    color: AppColor.grey,
+  );
+
+  // Small chat text (12px)
+  static TextStyle get chatSmall => const TextStyle(
+    fontFamily: _fontFamily,
+    fontSize: 12,
+    fontWeight: FontWeight.w400,
+    color: AppColor.black87,
+  );
+
+  // Hint text (14px)
+  static TextStyle get hint => const TextStyle(
+    fontFamily: _fontFamily,
+    fontSize: 14,
+    fontWeight: FontWeight.w400,
+    color: AppColor.grey,
+  );
+
+  // Page title standard (20px)
+  static TextStyle get pageTitle => const TextStyle(
+    fontFamily: _fontFamily,
+    fontSize: 20,
+    fontWeight: FontWeight.w400,
+    color: AppColor.black,
+  );
+
+  // Large text (24px, bold)
+  static TextStyle get textLarge => const TextStyle(
     fontFamily: _fontFamily,
     fontSize: 24,
-    fontWeight: FontWeight.w700,
-    color: AppColor.secondary,
+    fontWeight: FontWeight.bold,
+    color: AppColor.black,
   );
 }
