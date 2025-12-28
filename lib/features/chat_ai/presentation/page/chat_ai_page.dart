@@ -4,6 +4,7 @@ import 'package:spatium/features/auth/presentation/providers/auth_providers.dart
 import 'package:spatium/features/chat_ai/presentation/providers/chat_providers.dart';
 import 'package:spatium/features/chat_ai/presentation/widgets/chat_message_bubble.dart';
 import 'package:spatium/features/chat_ai/presentation/widgets/new_session_dialog.dart';
+import 'package:spatium/features/chat_ai/presentation/widgets/session_drawer.dart';
 import 'package:spatium/styles/colors.dart';
 import 'package:spatium/styles/constants.dart';
 import 'package:spatium/styles/typography.dart';
@@ -18,6 +19,7 @@ class ChatAIPage extends ConsumerStatefulWidget {
 class _ChatAIPageState extends ConsumerState<ChatAIPage> {
   final TextEditingController _messageController = TextEditingController();
   final ScrollController _scrollController = ScrollController();
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
@@ -95,7 +97,7 @@ class _ChatAIPageState extends ConsumerState<ChatAIPage> {
         // Show success message
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Session "$result" berhasil dibuat!'),
+            content: Text('Percakapan "$result" berhasil dibuat!'),
             backgroundColor: Colors.green,
             duration: const Duration(seconds: 2),
           ),
@@ -106,7 +108,7 @@ class _ChatAIPageState extends ConsumerState<ChatAIPage> {
         final error = ref.read(chatNotifierProvider).error;
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text(error ?? 'Gagal membuat session'),
+            content: Text(error ?? 'Gagal membuat percakapan'),
             backgroundColor: Colors.red,
             duration: const Duration(seconds: 3),
           ),
@@ -115,16 +117,23 @@ class _ChatAIPageState extends ConsumerState<ChatAIPage> {
     }
   }
 
+  void _openDrawer() {
+    _scaffoldKey.currentState?.openDrawer();
+  }
+
   @override
   Widget build(BuildContext context) {
     final chatState = ref.watch(chatNotifierProvider);
 
     return Scaffold(
+      key: _scaffoldKey,
       backgroundColor: AppColor.backgroundLight,
+      drawer: SessionDrawer(onNewSession: _showNewSessionDialog),
       appBar: AppBar(
         leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios, color: AppColor.black),
-          onPressed: () => Navigator.pop(context),
+          icon: Icon(Icons.menu, color: AppColor.black),
+          onPressed: _openDrawer,
+          tooltip: 'Riwayat Chat',
         ),
         title: Text(
           chatState.currentSession?.title ?? 'Chat AI',
@@ -137,7 +146,7 @@ class _ChatAIPageState extends ConsumerState<ChatAIPage> {
           IconButton(
             icon: Icon(Icons.add, color: AppColor.black),
             onPressed: chatState.isLoading ? null : _showNewSessionDialog,
-            tooltip: 'Buat Session Baru',
+            tooltip: 'Buat Percakapan Baru',
           ),
         ],
       ),

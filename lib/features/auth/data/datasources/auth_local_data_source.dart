@@ -11,6 +11,8 @@ abstract class AuthLocalDataSource {
     required String userId,
     required String alias,
     required String recoveryCode,
+    String? email,
+    String? photoUrl,
   });
 
   Future<void> cacheUser(UserModel user);
@@ -30,11 +32,19 @@ class AuthLocalDataSourceImpl implements AuthLocalDataSource {
     required String userId,
     required String alias,
     required String recoveryCode,
+    String? email,
+    String? photoUrl,
   }) async {
     await storageService.saveAccessToken(token);
     await storageService.saveUserId(userId);
     await storageService.saveUserAlias(alias);
     await storageService.saveRecoveryCode(recoveryCode);
+    if (email != null) {
+      await storageService.saveUserEmail(email);
+    }
+    if (photoUrl != null) {
+      await storageService.saveUserPhotoUrl(photoUrl);
+    }
     await storageService.saveLoginStatus(true);
   }
 

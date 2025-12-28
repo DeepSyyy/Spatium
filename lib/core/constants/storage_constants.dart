@@ -6,6 +6,8 @@ class StorageConstants {
   static const String refreshToken = 'refresh_token';
   static const String userId = 'user_id';
   static const String userAlias = 'user_alias';
+  static const String userEmail = 'user_email';
+  static const String userPhotoUrl = 'user_photo_url';
   static const String recoveryCode = 'recovery_code';
   static const String isLoggedIn = 'is_logged_in';
   

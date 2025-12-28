@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:spatium/core/providers/core_providers.dart';
+import 'package:spatium/core/services/google_sign_in_service.dart';
 import 'package:spatium/features/auth/presentation/page/welcome_page.dart';
 import 'package:spatium/features/auth/presentation/providers/auth_notifier.dart';
 import 'package:spatium/styles/colors.dart';
@@ -15,6 +16,10 @@ class ProfilePage extends ConsumerWidget {
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
+        backgroundColor: AppColor.white,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(AppConstants.radiusL),
+        ),
         title: Text('Konfirmasi Logout', style: SpatiumTypography.h2),
         content: Text(
           'Apakah Anda yakin ingin keluar?',
@@ -23,20 +28,34 @@ class ProfilePage extends ConsumerWidget {
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(false),
-            child: Text('Batal', style: SpatiumTypography.button),
+            child: Text(
+              'Batal',
+              style: SpatiumTypography.button.copyWith(
+                color: AppColor.secondary,
+              ),
+            ),
           ),
           ElevatedButton(
             onPressed: () => Navigator.of(context).pop(true),
             style: ElevatedButton.styleFrom(
               backgroundColor: AppColor.error,
             ),
-            child: Text('Logout', style: SpatiumTypography.button),
+            child: Text(
+              'Logout',
+              style: SpatiumTypography.button.copyWith(
+                color: AppColor.white,
+              ),
+            ),
           ),
         ],
       ),
     );
 
     if (confirmed == true && context.mounted) {
+      // Also sign out from Google
+      final googleService = GoogleSignInService();
+      await googleService.signOut();
+      
       // Perform logout
       await ref.read(authNotifierProvider.notifier).logout();
 
@@ -55,8 +74,10 @@ class ProfilePage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     // Get user info from storage
-    final userAliasFuture = ref.read(secureStorageServiceProvider).getUserAlias();
-    final recoveryCodeFuture = ref.read(secureStorageServiceProvider).getRecoveryCode();
+    final storageService = ref.read(secureStorageServiceProvider);
+    final userAliasFuture = storageService.getUserAlias();
+    final userEmailFuture = storageService.getUserEmail();
+    final userPhotoUrlFuture = storageService.getUserPhotoUrl();
 
     return Scaffold(
       backgroundColor: AppColor.white,
@@ -75,14 +96,27 @@ class ProfilePage extends ConsumerWidget {
             Center(
               child: Column(
                 children: [
-                  CircleAvatar(
-                    radius: 50,
-                    backgroundColor: AppColor.primary,
-                    child: Icon(
-                      Icons.person,
-                      size: 50,
-                      color: AppColor.white,
-                    ),
+                  FutureBuilder<String?>(
+                    future: userPhotoUrlFuture,
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData && snapshot.data != null && snapshot.data!.isNotEmpty) {
+                        return CircleAvatar(
+                          radius: 50,
+                          backgroundColor: AppColor.primary,
+                          backgroundImage: NetworkImage(snapshot.data!),
+                          onBackgroundImageError: (_, __) {},
+                        );
+                      }
+                      return CircleAvatar(
+                        radius: 50,
+                        backgroundColor: AppColor.primary,
+                        child: Icon(
+                          Icons.person,
+                          size: 50,
+                          color: AppColor.white,
+                        ),
+                      );
+                    },
                   ),
                   const SizedBox(height: AppConstants.spacingM),
                   FutureBuilder<String?>(
@@ -100,6 +134,21 @@ class ProfilePage extends ConsumerWidget {
                       );
                     },
                   ),
+                  const SizedBox(height: AppConstants.spacingXs),
+                  FutureBuilder<String?>(
+                    future: userEmailFuture,
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData && snapshot.data != null) {
+                        return Text(
+                          snapshot.data!,
+                          style: SpatiumTypography.bodyMedium.copyWith(
+                            color: AppColor.secondary,
+                          ),
+                        );
+                      }
+                      return const SizedBox.shrink();
+                    },
+                  ),
                 ],
               ),
             ),
@@ -112,7 +161,7 @@ class ProfilePage extends ConsumerWidget {
             ),
             const SizedBox(height: AppConstants.spacingL),
 
-            // Recovery Code
+            // Account Info Card
             Container(
               width: double.infinity,
               padding: const EdgeInsets.all(AppConstants.spacingL),
@@ -126,42 +175,47 @@ class ProfilePage extends ConsumerWidget {
                 children: [
                   Row(
                     children: [
-                      Icon(
-                        Icons.key,
-                        color: AppColor.primary,
-                        size: AppConstants.iconS,
+                      Image.asset(
+                        'assets/icons/google_logo.png',
+                        height: 24,
+                        errorBuilder: (context, error, stackTrace) =>
+                            Icon(Icons.account_circle, color: AppColor.primary),
                       ),
                       const SizedBox(width: AppConstants.spacingS),
                       Text(
-                        'Recovery Code',
+                        'Terhubung dengan Google',
                         style: SpatiumTypography.labelSemiBold,
                       ),
                     ],
                   ),
-                  const SizedBox(height: AppConstants.spacingS),
+                  const SizedBox(height: AppConstants.spacingM),
                   FutureBuilder<String?>(
-                    future: recoveryCodeFuture,
+                    future: userEmailFuture,
                     builder: (context, snapshot) {
                       if (snapshot.hasData && snapshot.data != null) {
-                        return SelectableText(
-                          snapshot.data!,
-                          style: SpatiumTypography.h3.copyWith(
-                            color: AppColor.primary,
-                            letterSpacing: 1.5,
-                          ),
+                        return Row(
+                          children: [
+                            Icon(
+                              Icons.email_outlined,
+                              color: AppColor.secondary,
+                              size: 18,
+                            ),
+                            const SizedBox(width: AppConstants.spacingS),
+                            Text(
+                              snapshot.data!,
+                              style: SpatiumTypography.bodyMedium.copyWith(
+                                color: AppColor.secondary,
+                              ),
+                            ),
+                          ],
                         );
                       }
-                      return Text(
-                        '••••••••••••',
-                        style: SpatiumTypography.h3.copyWith(
-                          color: AppColor.secondary,
-                        ),
-                      );
+                      return const SizedBox.shrink();
                     },
                   ),
                   const SizedBox(height: AppConstants.spacingS),
                   Text(
-                    'Simpan recovery code ini dengan aman untuk login kembali',
+                    'Akun Anda terhubung dengan Google untuk keamanan dan kemudahan akses',
                     style: SpatiumTypography.small.copyWith(
                       color: AppColor.secondary,
                     ),
@@ -184,7 +238,7 @@ class ProfilePage extends ConsumerWidget {
               child: ElevatedButton.icon(
                 onPressed: () => _handleLogout(context, ref),
                 icon: Icon(Icons.logout, size: AppConstants.iconS),
-                label: Text('Logout'),
+                label: const Text('Logout'),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: AppColor.error,
                   foregroundColor: AppColor.white,

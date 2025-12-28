@@ -64,6 +64,32 @@ class SecureStorageService {
     return await _storage.read(key: StorageConstants.recoveryCode);
   }
 
+  /// Save user email
+  Future<void> saveUserEmail(String email) async {
+    await _storage.write(
+      key: StorageConstants.userEmail,
+      value: email,
+    );
+  }
+
+  /// Get user email
+  Future<String?> getUserEmail() async {
+    return await _storage.read(key: StorageConstants.userEmail);
+  }
+
+  /// Save user photo URL
+  Future<void> saveUserPhotoUrl(String url) async {
+    await _storage.write(
+      key: StorageConstants.userPhotoUrl,
+      value: url,
+    );
+  }
+
+  /// Get user photo URL
+  Future<String?> getUserPhotoUrl() async {
+    return await _storage.read(key: StorageConstants.userPhotoUrl);
+  }
+
   /// Save login status
   Future<void> saveLoginStatus(bool isLoggedIn) async {
     await _storage.write(
@@ -83,6 +109,8 @@ class SecureStorageService {
     await _storage.delete(key: StorageConstants.accessToken);
     await _storage.delete(key: StorageConstants.userId);
     await _storage.delete(key: StorageConstants.userAlias);
+    await _storage.delete(key: StorageConstants.userEmail);
+    await _storage.delete(key: StorageConstants.userPhotoUrl);
     await _storage.delete(key: StorageConstants.recoveryCode);
     await _storage.delete(key: StorageConstants.isLoggedIn);
   }

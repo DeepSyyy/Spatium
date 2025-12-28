@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:spatium/features/auth/presentation/page/login_page.dart';
-import 'package:spatium/features/auth/presentation/page/register_page.dart';
 import 'package:spatium/styles/colors.dart';
 import 'package:spatium/styles/constants.dart';
 import 'package:spatium/styles/typography.dart';
@@ -123,32 +122,18 @@ class WelcomePage extends StatelessWidget {
                   bottom: -15, right: -25, angle: -0.2, size: 115
                 ),
 
-                // 3. Tombol - Register & Login
+                // 3. Tombol - Login dengan Google
                 Positioned(
                   bottom: AppConstants.spacing40,
                   left: AppConstants.spacingXxl,
                   right: AppConstants.spacingXxl,
                   child: Column(
                     children: [
-                      // Register Button
+                      // Google Sign In Button - Single button for both login/register
                       SizedBox(
                         width: double.infinity,
                         child: ButtonApp(
-                          text: 'Daftar Akun',
-                          onPressed: () {
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (context) => const RegisterPage(),
-                              ),
-                            );
-                          },
-                        ),
-                      ),
-                      const SizedBox(height: AppConstants.spacingM),
-                      // Login Button
-                      SizedBox(
-                        width: double.infinity,
-                        child: OutlinedButton(
+                          text: 'Lanjutkan dengan Google',
                           onPressed: () {
                             Navigator.of(context).push(
                               MaterialPageRoute(
@@ -156,23 +141,16 @@ class WelcomePage extends StatelessWidget {
                               ),
                             );
                           },
-                          style: OutlinedButton.styleFrom(
-                            foregroundColor: AppColor.primary,
-                            side: BorderSide(color: AppColor.primary, width: 2),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(AppConstants.radiusXl),
-                            ),
-                            padding: const EdgeInsets.symmetric(
-                              vertical: AppConstants.spacingL,
-                            ),
-                          ),
-                          child: Text(
-                            'Sudah Punya Akun? Masuk',
-                            style: SpatiumTypography.buttonText.copyWith(
-                              color: AppColor.primary,
-                            ),
-                          ),
                         ),
+                      ),
+                      const SizedBox(height: AppConstants.spacingM),
+                      // Info text
+                      Text(
+                        'Kami menggunakan Google untuk keamanan dan kemudahan akses',
+                        style: SpatiumTypography.small.copyWith(
+                          color: AppColor.secondary,
+                        ),
+                        textAlign: TextAlign.center,
                       ),
                     ],
                   ),

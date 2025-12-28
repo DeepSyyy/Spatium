@@ -192,7 +192,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
           },
         ),
         title: Text(
-          'Masuk',
+          'Lanjutkan',
           style: SpatiumTypography.h1,
         ),
         centerTitle: true,

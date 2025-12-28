@@ -122,12 +122,14 @@ class AuthRepositoryImpl implements AuthRepository {
         photoUrl: photoUrl,
       );
 
-      // Cache auth data
+      // Cache auth data with email and photo URL
       await localDataSource.cacheAuthData(
         token: response.token,
         userId: response.user.publicId,
         alias: response.user.alias,
         recoveryCode: response.user.recoveryCode ?? '',
+        email: email,
+        photoUrl: photoUrl,
       );
 
       // Cache user data
