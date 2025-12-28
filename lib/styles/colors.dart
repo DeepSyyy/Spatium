@@ -34,6 +34,8 @@ abstract class AppColor {
 
   // Error Text / Border [UC-3]
   static const error = Color(0xFFEF4444);
+  // Warning color
+  static const warning = Color(0xFFF59E0B);
 
   // --- Additional UI Colors ---
   // Welcome page arch background

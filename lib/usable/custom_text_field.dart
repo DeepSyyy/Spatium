@@ -14,6 +14,8 @@ class SpatiumTextField extends StatelessWidget {
   final String? errorMessage;
   final TextInputType keyboardType;
   final Widget? suffixIcon;
+  final bool enabled;
+  final String? Function(String?)? validator;
 
   const SpatiumTextField({
     super.key,
@@ -26,6 +28,8 @@ class SpatiumTextField extends StatelessWidget {
     this.errorMessage,
     this.keyboardType = TextInputType.text,
     this.suffixIcon,
+    this.enabled = true,
+    this.validator,
   });
 
   // Constructor khusus untuk Area Panjang (Curhat Baru)
@@ -79,6 +83,8 @@ class SpatiumTextField extends StatelessWidget {
             minLines: minLines,
             keyboardType: keyboardType,
             style: SpatiumTypography.input,
+            enabled: enabled,
+            validator: validator,
             decoration: InputDecoration(
               hintText: hintText,
               hintStyle: SpatiumTypography.input.copyWith(

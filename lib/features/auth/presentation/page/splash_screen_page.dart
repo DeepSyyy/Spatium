@@ -1,28 +1,75 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:spatium/features/auth/presentation/page/welcome_page.dart';
+import 'package:spatium/features/auth/presentation/providers/auth_providers.dart';
 import 'package:spatium/styles/colors.dart';
+import 'package:spatium/usable/pages/main_navigation_page.dart';
 
-class SplashScreenPage extends StatefulWidget {
+class SplashScreenPage extends ConsumerStatefulWidget {
   const SplashScreenPage({super.key});
 
   @override
-  State<SplashScreenPage> createState() => _SplashScreenPageState();
+  ConsumerState<SplashScreenPage> createState() => _SplashScreenPageState();
 }
 
-class _SplashScreenPageState extends State<SplashScreenPage> {
+class _SplashScreenPageState extends ConsumerState<SplashScreenPage> {
   @override
   void initState() {
     super.initState();
-    _navigateToWelcome();
+    _checkAuthAndNavigate();
   }
 
-  Future<void> _navigateToWelcome() async {
-    await Future.delayed(const Duration(seconds: 3));
-    if (mounted) {
+  Future<void> _checkAuthAndNavigate() async {
+    // Show splash for at least 2 seconds
+    await Future.delayed(const Duration(seconds: 2));
+
+    if (!mounted) return;
+
+    try {
+      // Check if user is logged in
+      final isLoggedIn = await ref.read(isLoggedInProvider.future);
+
+      if (!mounted) return;
+
+      if (isLoggedIn) {
+        // User is logged in, navigate to main app
+        Navigator.of(context).pushReplacement(
+          PageRouteBuilder(
+            pageBuilder: (context, animation, secondaryAnimation) =>
+                const MainNavigationPage(),
+            transitionsBuilder: (context, animation, secondaryAnimation, child) {
+              return FadeTransition(
+                opacity: animation,
+                child: child,
+              );
+            },
+            transitionDuration: const Duration(milliseconds: 500),
+          ),
+        );
+      } else {
+        // User not logged in, navigate to welcome page
+        Navigator.of(context).pushReplacement(
+          PageRouteBuilder(
+            pageBuilder: (context, animation, secondaryAnimation) =>
+                const WelcomePage(),
+            transitionsBuilder: (context, animation, secondaryAnimation, child) {
+              return FadeTransition(
+                opacity: animation,
+                child: child,
+              );
+            },
+            transitionDuration: const Duration(milliseconds: 500),
+          ),
+        );
+      }
+    } catch (e) {
+      // On error, navigate to welcome page
+      if (!mounted) return;
       Navigator.of(context).pushReplacement(
         PageRouteBuilder(
-          pageBuilder: (context, animation, secondaryAnimation) => const WelcomePage(),
+          pageBuilder: (context, animation, secondaryAnimation) =>
+              const WelcomePage(),
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
             return FadeTransition(
               opacity: animation,

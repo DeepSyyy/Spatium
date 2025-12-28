@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widget_previews.dart';
+import 'package:spatium/features/auth/presentation/page/register_page.dart';
 import 'package:spatium/styles/colors.dart';
 import 'package:spatium/styles/constants.dart';
 import 'package:spatium/styles/typography.dart';
+import 'package:spatium/usable/button_app.dart';
 
 class AuthPage extends StatelessWidget {
   @Preview(name: 'Auth Page')
@@ -46,20 +48,17 @@ class AuthPage extends StatelessWidget {
                 ),
                 Positioned(
                   bottom: AppConstants.spacing40,
-                  child: ElevatedButton(
-                    onPressed: () {},
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: AppColor.primary,
-                      foregroundColor: AppColor.white,
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 114,
-                        vertical: AppConstants.spacingL,
-                      ),
-                    ),
-                    child: Text(
-                      "Mulai Curhat",
-                      style: SpatiumTypography.button,
-                    ),
+                  left: AppConstants.spacingXl,
+                  right: AppConstants.spacingXl,
+                  child: ButtonApp(
+                    text: 'Mulai Curhat',
+                    onPressed: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => const RegisterPage(),
+                        ),
+                      );
+                    },
                   ),
                 ),
               ],
