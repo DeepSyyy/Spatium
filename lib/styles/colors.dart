@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 abstract class AppColor {
   // --- Core Colors (Sesuai Data Image) ---
-  static const primary = _BrandColor.primary;      // #1D2957
-  static const secondary = _BrandColor.secondary;  // #111832
+  static const primary = _BrandColor.primary; // #1D2957
+  static const secondary = _BrandColor.secondary; // #111832
   static const backgroundScaffold = Color(0xffF4F5FB); // #F4F5FB
 
   // --- UI Surfaces ---
@@ -13,26 +13,44 @@ abstract class AppColor {
 
   // --- Specific UI Elements (Sampling dari Gambar) ---
   // Background ungu muda pada box "Respon AI" [UC-2]
-  static const aiResponseBackground = Color(0xFFEEF2FF); 
+  static const aiResponseBackground = Color(0xFFEEF2FF);
   // Text ungu gelap pada box "Respon AI" [UC-2]
-  static const aiResponseText = Color(0xFF3730A3); 
-  
+  static const aiResponseText = Color(0xFF3730A3);
+
   // Chat Bubble Sender (User) - Putih [UC-5]
   static const chatBubbleUser = Colors.white;
   // Chat Bubble Receiver (AI) - Ungu Gelap [UC-5]
-  static const chatBubbleAi = Color(0xFF4338CA); 
+  static const chatBubbleAi = Color(0xFF4338CA);
 
   // --- Status & Alerts ---
   // Label "Senang" (Kuning) [UC-2]
   static const statusHappyBg = Color(0xFFFEF3C7);
   static const statusHappyText = Color(0xFFB45309);
-  
+
   // Label "Marah" (Merah) [UC-2]
   static const statusAngryBg = Color(0xFFFEE2E2);
   static const statusAngryText = Color(0xFFB91C1C);
 
   // Error Text / Border [UC-3]
   static const error = Color(0xFFEF4444);
+
+  // --- Additional UI Colors ---
+  // Welcome Page
+  static const welcomeArchBackground = Color(0xFFEFF3FD);
+
+  // Chat AI Page
+  static const chatBackground = Color(0xFFF5F5F5);
+  static const robotColor = Color(0xFFB0C4C7);
+  static const robotDark = Color(0xFF8FA5A8);
+  static const sendButtonBackground = Color(0xFF000000);
+  static const gradientPurple = Color(0xFF8B5CF6);
+  static const gradientPink = Color(0xFFEC4899);
+
+  // General Text Colors
+  static const textPrimary = Color(0xFF000000);
+  static const textSecondary = Color(0xFF6B7280);
+  static const textGrey = Color(0xFF9CA3AF);
+  static const black87 = Color(0xDE000000);
 }
 
 abstract class _BrandColor {

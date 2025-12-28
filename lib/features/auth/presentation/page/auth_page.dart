@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widget_previews.dart';
+import 'package:spatium/styles/colors.dart';
+import 'package:spatium/styles/typography.dart';
 
 class AuthPage extends StatelessWidget {
   @Preview(name: 'Auth Page')
@@ -17,15 +19,11 @@ class AuthPage extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const SizedBox(height: 23),
-                Text(
-                  "Spatium",
-                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-                ),
+                Text("Spatium", style: SpatiumTypography.authTitle),
                 const SizedBox(height: 16),
-                const Text(
+                Text(
                   "Get to know yourself better, trace, embrace and review to be better version of you!",
-
-                  style: TextStyle(fontSize: 16, color: Colors.grey),
+                  style: SpatiumTypography.bodyGrey,
                 ),
                 const SizedBox(height: 16),
               ],
@@ -46,12 +44,20 @@ class AuthPage extends StatelessWidget {
                   child: ElevatedButton(
                     onPressed: () {},
                     style: ElevatedButton.styleFrom(
+                      backgroundColor: AppColor.primary,
+                      foregroundColor: AppColor.white,
                       padding: const EdgeInsets.symmetric(
                         horizontal: 114,
                         vertical: 16,
                       ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30),
+                      ),
                     ),
-                    child: const Text("Mulai Curhat"),
+                    child: Text(
+                      "Mulai Curhat",
+                      style: SpatiumTypography.buttonLarge,
+                    ),
                   ),
                 ),
               ],
