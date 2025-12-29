@@ -34,6 +34,7 @@ class ApiClient {
         onRequest: (options, handler) async {
           // Add JWT token to requests
           final token = await _storageService.getAccessToken();
+          _logger.d('Token retrieved: ${token != null ? "exists (${token.substring(0, 20)}...)" : "NULL"}');
           if (token != null) {
             options.headers['Authorization'] = 'Bearer $token';
           }

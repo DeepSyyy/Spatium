@@ -166,4 +166,9 @@ class ChatNotifier extends StateNotifier<ChatState> {
   void clearError() {
     state = state.copyWith(clearError: true);
   }
+
+  /// Reset entire chat state (used when user logs out or switches accounts)
+  void resetState() {
+    state = const ChatState();
+  }
 }

@@ -22,7 +22,9 @@ class SecureStorageService {
 
   /// Get access token
   Future<String?> getAccessToken() async {
-    return await _storage.read(key: StorageConstants.accessToken);
+    final token = await _storage.read(key: StorageConstants.accessToken);
+    print('🔐 SecureStorage.getAccessToken() => ${token != null ? "Token exists (length: ${token.length})" : "NULL"}');
+    return token;
   }
 
   /// Save user ID

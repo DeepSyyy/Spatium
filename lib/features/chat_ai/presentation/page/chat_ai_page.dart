@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:spatium/features/auth/presentation/providers/auth_providers.dart';
 import 'package:spatium/features/chat_ai/presentation/providers/chat_providers.dart';
 import 'package:spatium/features/chat_ai/presentation/widgets/chat_message_bubble.dart';
@@ -25,6 +26,9 @@ class _ChatAIPageState extends ConsumerState<ChatAIPage> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
+      // Reset chat state first to clear any leftover data from previous sessions
+      ref.read(chatNotifierProvider.notifier).resetState();
+      
       // Check if user is logged in
       final isLoggedInAsync = ref.read(isLoggedInProvider);
       final isLoggedIn = await isLoggedInAsync.whenOrNull(
@@ -208,14 +212,12 @@ class _ChatAIPageState extends ConsumerState<ChatAIPage> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Container(
+                // Robot image from assets
+                SvgPicture.asset(
+                  'assets/svg/robot.svg',
                   width: 120,
                   height: 120,
-                  decoration: BoxDecoration(
-                    color: AppColor.chatRobotPrimary,
-                    borderRadius: BorderRadius.circular(AppConstants.spacingXl),
-                  ),
-                  child: _buildRobotFace(),
+                  fit: BoxFit.contain,
                 ),
                 const SizedBox(height: AppConstants.radiusXl + 10),
                 Text(
@@ -240,14 +242,12 @@ class _ChatAIPageState extends ConsumerState<ChatAIPage> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Container(
+          // Robot image from assets
+          Image.asset(
+            'assets/images/robot.png',
             width: 120,
             height: 120,
-            decoration: BoxDecoration(
-              color: AppColor.chatRobotPrimary,
-              borderRadius: BorderRadius.circular(AppConstants.spacingXl),
-            ),
-            child: _buildRobotFace(),
+            fit: BoxFit.contain,
           ),
           const SizedBox(height: AppConstants.radiusXl + 10),
           Container(
@@ -260,19 +260,14 @@ class _ChatAIPageState extends ConsumerState<ChatAIPage> {
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Container(
+                // Sparkles SVG icon
+                SvgPicture.asset(
+                  'assets/svg/sparkles-sharp.svg',
                   width: AppConstants.spacingXl,
                   height: AppConstants.spacingXl,
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: [AppColor.gradientPurple, AppColor.gradientPink],
-                    ),
-                    borderRadius: BorderRadius.circular(5),
-                  ),
-                  child: Icon(
-                    Icons.auto_awesome,
-                    color: AppColor.white,
-                    size: AppConstants.spacingM,
+                  colorFilter: ColorFilter.mode(
+                    AppColor.primary,
+                    BlendMode.srcIn,
                   ),
                 ),
                 const SizedBox(width: AppConstants.spacingS),
@@ -287,119 +282,6 @@ class _ChatAIPageState extends ConsumerState<ChatAIPage> {
           ),
         ],
       ),
-    );
-  }
-
-  Widget _buildRobotFace() {
-    return Stack(
-      alignment: Alignment.center,
-      children: [
-        // Robot eyes
-        Positioned(
-          top: 35,
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Container(
-                width: AppConstants.spacingXl,
-                height: AppConstants.spacingXl,
-                decoration: BoxDecoration(
-                  color: AppColor.white,
-                  shape: BoxShape.circle,
-                ),
-                child: Center(
-                  child: Container(
-                    width: AppConstants.spacingS,
-                    height: AppConstants.spacingS,
-                    decoration: BoxDecoration(
-                      color: AppColor.black,
-                      shape: BoxShape.circle,
-                    ),
-                  ),
-                ),
-              ),
-              const SizedBox(width: AppConstants.spacingXl),
-              Container(
-                width: AppConstants.spacingXl,
-                height: AppConstants.spacingXl,
-                decoration: BoxDecoration(
-                  color: AppColor.white,
-                  shape: BoxShape.circle,
-                ),
-                child: Center(
-                  child: Container(
-                    width: AppConstants.spacingS,
-                    height: AppConstants.spacingS,
-                    decoration: BoxDecoration(
-                      color: AppColor.black,
-                      shape: BoxShape.circle,
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-        // Mouth
-        Positioned(
-          top: 65,
-          child: Container(
-            width: AppConstants.radiusXl + 10,
-            height: AppConstants.borderWidthThick,
-            decoration: BoxDecoration(
-              color: AppColor.black,
-              borderRadius: BorderRadius.circular(AppConstants.elevationLow),
-            ),
-          ),
-        ),
-        // Antenna
-        Positioned(
-          top: -5,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Container(
-                width: AppConstants.spacingS,
-                height: AppConstants.spacingS,
-                decoration: BoxDecoration(
-                  color: AppColor.chatRobotSecondary,
-                  shape: BoxShape.circle,
-                ),
-              ),
-              Container(
-                width: 2,
-                height: 10,
-                color: AppColor.chatRobotSecondary,
-              ),
-            ],
-          ),
-        ),
-        // Ears
-        Positioned(
-          left: -AppConstants.spacingS,
-          top: 45,
-          child: Container(
-            width: 15,
-            height: 25,
-            decoration: BoxDecoration(
-              color: AppColor.chatRobotSecondary,
-              borderRadius: BorderRadius.circular(5),
-            ),
-          ),
-        ),
-        Positioned(
-          right: -AppConstants.spacingS,
-          top: 45,
-          child: Container(
-            width: 15,
-            height: 25,
-            decoration: BoxDecoration(
-              color: AppColor.chatRobotSecondary,
-              borderRadius: BorderRadius.circular(5),
-            ),
-          ),
-        ),
-      ],
     );
   }
 
@@ -447,14 +329,20 @@ class _ChatAIPageState extends ConsumerState<ChatAIPage> {
               height: AppConstants.buttonHeightS,
               decoration: BoxDecoration(
                 color: isSendingMessage 
-                    ? AppColor.black.withOpacity(0.5)
-                    : AppColor.black,
+                    ? AppColor.primary.withOpacity(0.5)
+                    : AppColor.primary,
                 shape: BoxShape.circle,
               ),
-              child: Icon(
-                Icons.send,
-                color: AppColor.white,
-                size: AppConstants.spacingXl,
+              child: Center(
+                child: SvgPicture.asset(
+                  'assets/svg/sent.svg',
+                  width: 20,
+                  height: 20,
+                  colorFilter: ColorFilter.mode(
+                    AppColor.white,
+                    BlendMode.srcIn,
+                  ),
+                ),
               ),
             ),
           ),

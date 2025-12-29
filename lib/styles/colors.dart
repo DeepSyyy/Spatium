@@ -28,9 +28,17 @@ abstract class AppColor {
   static const statusHappyBg = Color(0xFFFEF3C7);
   static const statusHappyText = Color(0xFFB45309);
 
+  // Label "Sedih" (Biru) [UC-2]
+  static const statusSadBg = Color(0xFFDBEAFE);
+  static const statusSadText = Color(0xFF1E40AF);
+
   // Label "Marah" (Merah) [UC-2]
   static const statusAngryBg = Color(0xFFFEE2E2);
   static const statusAngryText = Color(0xFFB91C1C);
+
+  // Label "Netral" (Abu-abu) [UC-2]
+  static const statusNeutralBg = Color(0xFFF3F4F6);
+  static const statusNeutralText = Color(0xFF6B7280);
 
   // Error Text / Border [UC-3]
   static const error = Color(0xFFEF4444);
