@@ -189,9 +189,9 @@ class _PostDetailPageState extends ConsumerState<PostDetailPage> {
     final post = timelineState.selectedPost;
 
     return Scaffold(
-      backgroundColor: AppColor.white,
+      backgroundColor: AppColor.backgroundLight,
       appBar: AppBar(
-        backgroundColor: AppColor.white,
+        backgroundColor: AppColor.backgroundLight,
         elevation: 0,
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: AppColor.black),

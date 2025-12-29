@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:spatium/features/home/presentation/providers/home_providers.dart';
 import 'package:spatium/features/timeline/presentation/providers/timeline_providers.dart';
 import 'package:spatium/features/timeline/presentation/widget/mood_selector.dart';
 import 'package:spatium/styles/colors.dart';
@@ -119,7 +120,7 @@ class _CreateCurhatPageState extends ConsumerState<CreateCurhatPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColor.white,
+      backgroundColor: AppColor.backgroundLight,
       appBar: AppBar(
         backgroundColor: AppColor.transparent,
         elevation: AppConstants.elevationNone,
@@ -270,7 +271,7 @@ class CurhatFailedPage extends StatelessWidget {
     final screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
-      backgroundColor: AppColor.white,
+      backgroundColor: AppColor.backgroundLight,
       body: Stack(
         children: [
           // Setengah lingkaran besar dari kiri ke kanan, menembus ke atas
@@ -336,15 +337,25 @@ class CurhatFailedPage extends StatelessWidget {
 }
 
 // Halaman untuk curhatan berhasil dikirim
-class CurhatSuccessPage extends StatelessWidget {
+class CurhatSuccessPage extends ConsumerWidget {
   const CurhatSuccessPage({super.key});
 
+  void _navigateBack(BuildContext context, WidgetRef ref) {
+    // Refresh home data and timeline before navigating back
+    ref.read(homeNotifierProvider.notifier).loadHomeData();
+    ref.read(timelineNotifierProvider.notifier).loadPosts();
+    
+    // Pop back to timeline (pop 2 times: success page -> create page -> timeline)
+    Navigator.pop(context);
+    Navigator.pop(context);
+  }
+
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
-      backgroundColor: AppColor.white,
+      backgroundColor: AppColor.backgroundLight,
       body: Stack(
         children: [
           // Setengah lingkaran besar dari kiri ke kanan, menembus ke atas
@@ -369,11 +380,7 @@ class CurhatSuccessPage extends StatelessWidget {
               padding: const EdgeInsets.all(AppConstants.spacingL),
               child: IconButton(
                 icon: Icon(Icons.arrow_back, color: AppColor.secondary),
-                onPressed: () {
-                  // Pop back to timeline (pop 2 times: success page -> create page -> timeline)
-                  Navigator.pop(context);
-                  Navigator.pop(context);
-                },
+                onPressed: () => _navigateBack(context, ref),
               ),
             ),
           ),
@@ -420,11 +427,7 @@ class CurhatSuccessPage extends StatelessWidget {
                   ),
                   const SizedBox(height: AppConstants.spacing40),
                   ElevatedButton(
-                    onPressed: () {
-                      // Pop back to timeline (pop 2 times: success page -> create page -> timeline)
-                      Navigator.pop(context);
-                      Navigator.pop(context);
-                    },
+                    onPressed: () => _navigateBack(context, ref),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: AppColor.primary,
                       foregroundColor: AppColor.white,
