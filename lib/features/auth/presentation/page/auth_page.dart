@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widget_previews.dart';
+import 'package:spatium/features/auth/presentation/page/register_page.dart';
+import 'package:spatium/styles/colors.dart';
+import 'package:spatium/styles/constants.dart';
+import 'package:spatium/styles/typography.dart';
+import 'package:spatium/usable/button_app.dart';
 
 class AuthPage extends StatelessWidget {
   @Preview(name: 'Auth Page')
@@ -8,10 +13,11 @@ class AuthPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColor.white,
       body: Column(
         children: [
           Padding(
-            padding: const EdgeInsets.only(left: 20.0, top: 32.0, right: 20.0),
+            padding: const EdgeInsets.only(left: AppConstants.spacingXl, top: AppConstants.spacing32, right: AppConstants.spacingXl),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -19,15 +25,14 @@ class AuthPage extends StatelessWidget {
                 const SizedBox(height: 23),
                 Text(
                   "Spatium",
-                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                  style: SpatiumTypography.textLarge,
                 ),
-                const SizedBox(height: 16),
-                const Text(
+                const SizedBox(height: AppConstants.spacingL),
+                Text(
                   "Get to know yourself better, trace, embrace and review to be better version of you!",
-
-                  style: TextStyle(fontSize: 16, color: Colors.grey),
+                  style: SpatiumTypography.bodyMedium,
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: AppConstants.spacingL),
               ],
             ),
           ),
@@ -42,16 +47,18 @@ class AuthPage extends StatelessWidget {
                   ),
                 ),
                 Positioned(
-                  bottom: 40,
-                  child: ElevatedButton(
-                    onPressed: () {},
-                    style: ElevatedButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 114,
-                        vertical: 16,
-                      ),
-                    ),
-                    child: const Text("Mulai Curhat"),
+                  bottom: AppConstants.spacing40,
+                  left: AppConstants.spacingXl,
+                  right: AppConstants.spacingXl,
+                  child: ButtonApp(
+                    text: 'Mulai Curhat',
+                    onPressed: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => const RegisterPage(),
+                        ),
+                      );
+                    },
                   ),
                 ),
               ],
