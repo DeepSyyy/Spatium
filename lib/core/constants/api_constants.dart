@@ -6,11 +6,11 @@ class ApiConstants {
   // ============================================
   
   // 1️⃣ ANDROID EMULATOR (AVD) - localhost laptop
-  static const String baseUrl = 'http://10.0.2.2:8080/api/v1';
+  // static const String baseUrl = 'http://10.0.2.2:8080/api/v1';
   
   // 2️⃣ ANDROID DEVICE (HP via USB) - Gunakan salah satu:
   //    a) Ngrok URL (jika pakai ngrok)
-  // static const String baseUrl = 'https://marleigh-sanguinolent-ari.ngrok-free.dev/api/v1';
+  static const String baseUrl = 'https://marleigh-sanguinolent-ari.ngrok-free.dev/api/v1';
   //    b) WiFi IP laptop (jika di network yang sama)
   // static const String baseUrl = 'http://192.168.1.100:8080/api/v1';
   
