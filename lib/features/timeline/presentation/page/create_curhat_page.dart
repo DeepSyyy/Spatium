@@ -62,7 +62,7 @@ class _CreateCurhatPageState extends ConsumerState<CreateCurhatPage> {
       setState(() {
         _isError = true;
       });
-      
+
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Row(
@@ -90,10 +90,12 @@ class _CreateCurhatPageState extends ConsumerState<CreateCurhatPage> {
 
     setState(() => _isSubmitting = true);
 
-    final success = await ref.read(timelineNotifierProvider.notifier).createPost(
-      _curhatController.text.trim(),
-      _getMoodTagId(_selectedMood),
-    );
+    final success = await ref
+        .read(timelineNotifierProvider.notifier)
+        .createPost(
+          _curhatController.text.trim(),
+          _getMoodTagId(_selectedMood),
+        );
 
     if (mounted) {
       setState(() => _isSubmitting = false);
@@ -102,17 +104,13 @@ class _CreateCurhatPageState extends ConsumerState<CreateCurhatPage> {
         // Navigate to success page
         Navigator.push(
           context,
-          MaterialPageRoute(
-            builder: (context) => const CurhatSuccessPage(),
-          ),
+          MaterialPageRoute(builder: (context) => const CurhatSuccessPage()),
         );
       } else {
         // Navigate to failed page
         Navigator.push(
           context,
-          MaterialPageRoute(
-            builder: (context) => const CurhatFailedPage(),
-          ),
+          MaterialPageRoute(builder: (context) => const CurhatFailedPage()),
         );
       }
     }
@@ -129,10 +127,7 @@ class _CreateCurhatPageState extends ConsumerState<CreateCurhatPage> {
           icon: Icon(Icons.arrow_back, color: AppColor.secondary),
           onPressed: () => Navigator.pop(context),
         ),
-        title: Text(
-          'Curhat',
-          style: SpatiumTypography.h1,
-        ),
+        title: Text('Curhat', style: SpatiumTypography.h1),
         centerTitle: true,
       ),
       body: Stack(
@@ -174,99 +169,94 @@ class _CreateCurhatPageState extends ConsumerState<CreateCurhatPage> {
                   ),
                   const SizedBox(height: AppConstants.spacingXxl),
 
-              // Kategori Dropdown
-              Text(
-                'Kategori',
-                style: SpatiumTypography.labelSemiBold,
-              ),
-              const SizedBox(height: AppConstants.spacingS),
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                decoration: BoxDecoration(
-                  color: AppColor.white,
-                  borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: AppColor.border),
-                ),
-                child: DropdownButtonHideUnderline(
-                  child: DropdownButton<String>(
-                    value: _selectedKategori,
-                    hint: Text(
-                      'Lorem Ipsum',
-                      style: SpatiumTypography.input.copyWith(
-                        color: AppColor.placeholder,
+                  // Kategori Dropdown
+                  Text('Kategori', style: SpatiumTypography.labelSemiBold),
+                  const SizedBox(height: AppConstants.spacingS),
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    decoration: BoxDecoration(
+                      color: AppColor.white,
+                      borderRadius: BorderRadius.circular(12),
+                      border: Border.all(color: AppColor.border),
+                    ),
+                    child: DropdownButtonHideUnderline(
+                      child: DropdownButton<String>(
+                        value: _selectedKategori,
+                        hint: Text(
+                          'Pilih kategori',
+                          style: SpatiumTypography.input.copyWith(
+                            color: AppColor.placeholder,
+                          ),
+                        ),
+                        isExpanded: true,
+                        icon: const Icon(Icons.keyboard_arrow_down),
+                        style: SpatiumTypography.input,
+                        items: _kategoriList.map((String kategori) {
+                          return DropdownMenuItem<String>(
+                            value: kategori,
+                            child: Text(kategori),
+                          );
+                        }).toList(),
+                        onChanged: (String? newValue) {
+                          setState(() {
+                            _selectedKategori = newValue;
+                          });
+                        },
                       ),
                     ),
-                    isExpanded: true,
-                    icon: const Icon(Icons.keyboard_arrow_down),
-                    style: SpatiumTypography.input,
-                    items: _kategoriList.map((String kategori) {
-                      return DropdownMenuItem<String>(
-                        value: kategori,
-                        child: Text(kategori),
-                      );
-                    }).toList(),
-                    onChanged: (String? newValue) {
-                      setState(() {
-                        _selectedKategori = newValue;
-                      });
-                    },
                   ),
-                ),
-              ),
-              const SizedBox(height: AppConstants.spacingXxl),
+                  const SizedBox(height: AppConstants.spacingXxl),
 
-              // Isi Curhat Text Area
-              Text(
-                'Isi Curhat*',
-                style: SpatiumTypography.labelSemiBold,
-              ),
-              const SizedBox(height: AppConstants.spacingS),
-              SpatiumTextField.area(
-                controller: _curhatController,
-                hintText: 'Lorem Ipsum',
-                isError: _isError,
-              ),
-              const SizedBox(height: AppConstants.spacingXxl),
-
-              // Kirim Button
-              Align(
-                alignment: Alignment.centerRight,
-                child: ElevatedButton(
-                  onPressed: _isSubmitting ? null : _submitCurhat,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColor.primary,
-                    foregroundColor: AppColor.white,
-                    elevation: AppConstants.elevationNone,
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: AppConstants.spacing32,
-                      vertical: AppConstants.spacingM,
-                    ),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(AppConstants.radiusM),
-                    ),
-                    disabledBackgroundColor: AppColor.primary.withOpacity(0.7),
+                  // Isi Curhat Text Area
+                  Text('Isi Curhat*', style: SpatiumTypography.labelSemiBold),
+                  const SizedBox(height: AppConstants.spacingS),
+                  SpatiumTextField.area(
+                    controller: _curhatController,
+                    hintText: 'Ceritakan apa yang kamu rasakan...',
+                    isError: _isError,
                   ),
-                  child: _isSubmitting
-                      ? SizedBox(
-                          width: 20,
-                          height: 20,
-                          child: CircularProgressIndicator(
-                            strokeWidth: 2,
-                            color: AppColor.white,
-                          ),
-                        )
-                      : Text(
-                          'Kirim',
-                          style: SpatiumTypography.button,
+                  const SizedBox(height: AppConstants.spacingXxl),
+
+                  // Kirim Button
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: ElevatedButton(
+                      onPressed: _isSubmitting ? null : _submitCurhat,
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: AppColor.primary,
+                        foregroundColor: AppColor.white,
+                        elevation: AppConstants.elevationNone,
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: AppConstants.spacing32,
+                          vertical: AppConstants.spacingM,
                         ),
-                ),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(
+                            AppConstants.radiusM,
+                          ),
+                        ),
+                        disabledBackgroundColor: AppColor.primary.withOpacity(
+                          0.7,
+                        ),
+                      ),
+                      child: _isSubmitting
+                          ? SizedBox(
+                              width: 20,
+                              height: 20,
+                              child: CircularProgressIndicator(
+                                strokeWidth: 2,
+                                color: AppColor.white,
+                              ),
+                            )
+                          : Text('Kirim', style: SpatiumTypography.button),
+                    ),
+                  ),
+                ],
               ),
-            ],
+            ),
           ),
-        ),
+        ],
       ),
-    ],
-    ),
     );
   }
 }
@@ -315,7 +305,9 @@ class CurhatFailedPage extends StatelessWidget {
           // Content - SVG dan Text di tengah layar
           Center(
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: AppConstants.spacing32),
+              padding: const EdgeInsets.symmetric(
+                horizontal: AppConstants.spacing32,
+              ),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 mainAxisSize: MainAxisSize.min,
@@ -378,8 +370,9 @@ class CurhatSuccessPage extends StatelessWidget {
               child: IconButton(
                 icon: Icon(Icons.arrow_back, color: AppColor.secondary),
                 onPressed: () {
-                  // Pop back to timeline
-                  Navigator.of(context).popUntil((route) => route.isFirst);
+                  // Pop back to timeline (pop 2 times: success page -> create page -> timeline)
+                  Navigator.pop(context);
+                  Navigator.pop(context);
                 },
               ),
             ),
@@ -387,7 +380,9 @@ class CurhatSuccessPage extends StatelessWidget {
           // Content - Icon dan Text di tengah layar
           Center(
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: AppConstants.spacing32),
+              padding: const EdgeInsets.symmetric(
+                horizontal: AppConstants.spacing32,
+              ),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 mainAxisSize: MainAxisSize.min,
@@ -426,7 +421,9 @@ class CurhatSuccessPage extends StatelessWidget {
                   const SizedBox(height: AppConstants.spacing40),
                   ElevatedButton(
                     onPressed: () {
-                      Navigator.of(context).popUntil((route) => route.isFirst);
+                      // Pop back to timeline (pop 2 times: success page -> create page -> timeline)
+                      Navigator.pop(context);
+                      Navigator.pop(context);
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: AppColor.primary,
@@ -436,7 +433,9 @@ class CurhatSuccessPage extends StatelessWidget {
                         vertical: AppConstants.spacingM,
                       ),
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(AppConstants.radiusM),
+                        borderRadius: BorderRadius.circular(
+                          AppConstants.radiusM,
+                        ),
                       ),
                     ),
                     child: Text(
