@@ -10,10 +10,7 @@ import 'package:spatium/styles/typography.dart';
 class PostDetailPage extends ConsumerStatefulWidget {
   final String postId;
 
-  const PostDetailPage({
-    super.key,
-    required this.postId,
-  });
+  const PostDetailPage({super.key, required this.postId});
 
   @override
   ConsumerState<PostDetailPage> createState() => _PostDetailPageState();
@@ -125,6 +122,67 @@ class _PostDetailPageState extends ConsumerState<PostDetailPage> {
     }
   }
 
+  void _showDeleteConfirmation(PostModel post) {
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: Text('Hapus Curhat', style: SpatiumTypography.h2),
+        content: Text(
+          'Apakah kamu yakin ingin menghapus curhat ini? Tindakan ini tidak dapat dibatalkan.',
+          style: SpatiumTypography.bodyRegular,
+        ),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(AppConstants.radiusM),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx),
+            child: Text(
+              'Batal',
+              style: SpatiumTypography.button.copyWith(
+                color: AppColor.secondary,
+              ),
+            ),
+          ),
+          ElevatedButton(
+            onPressed: () async {
+              Navigator.pop(ctx);
+              final success = await ref
+                  .read(timelineNotifierProvider.notifier)
+                  .deletePost(post.publicId);
+              if (mounted) {
+                if (success) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('Curhat berhasil dihapus'),
+                      backgroundColor: Colors.green,
+                    ),
+                  );
+                  Navigator.pop(context);
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('Gagal menghapus curhat'),
+                      backgroundColor: Colors.red,
+                    ),
+                  );
+                }
+              }
+            },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.red,
+              foregroundColor: AppColor.white,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(AppConstants.radiusM),
+              ),
+            ),
+            child: Text('Hapus', style: SpatiumTypography.button),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final timelineState = ref.watch(timelineNotifierProvider);
@@ -142,11 +200,40 @@ class _PostDetailPageState extends ConsumerState<PostDetailPage> {
             Navigator.pop(context);
           },
         ),
-        title: Text(
-          'Detail Curhat',
-          style: SpatiumTypography.appBarTitle,
-        ),
+        title: Text('Detail Curhat', style: SpatiumTypography.appBarTitle),
         centerTitle: true,
+        actions: [
+          if (post != null && post.isOwner)
+            PopupMenuButton<String>(
+              icon: Icon(Icons.more_vert, color: AppColor.black),
+              onSelected: (value) {
+                if (value == 'delete') {
+                  _showDeleteConfirmation(post);
+                }
+              },
+              itemBuilder: (context) => [
+                PopupMenuItem(
+                  value: 'delete',
+                  child: Row(
+                    children: [
+                      Icon(
+                        Icons.delete_outline,
+                        color: Colors.red,
+                        size: AppConstants.iconS,
+                      ),
+                      const SizedBox(width: AppConstants.spacingS),
+                      Text(
+                        'Hapus',
+                        style: SpatiumTypography.bodyRegular.copyWith(
+                          color: Colors.red,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+        ],
       ),
       body: timelineState.isLoadingComments || post == null
           ? const Center(child: CircularProgressIndicator())
@@ -162,28 +249,28 @@ class _PostDetailPageState extends ConsumerState<PostDetailPage> {
                         // Post Content
                         _buildPostContent(post),
                         const SizedBox(height: AppConstants.spacingL),
-                        
+
                         // AI Response
-                        if (post.aiResponse != null && post.aiResponse!.isNotEmpty) ...[
+                        if (post.aiResponse != null &&
+                            post.aiResponse!.isNotEmpty) ...[
                           _buildAiResponse(post.aiResponse!),
                           const SizedBox(height: AppConstants.spacingL),
                         ],
 
                         // Actions
                         _buildActions(post),
-                        
+
                         const Divider(height: 32),
 
                         // Comments Section
-                        Text(
-                          'Komentar',
-                          style: SpatiumTypography.h2,
-                        ),
+                        Text('Komentar', style: SpatiumTypography.h2),
                         const SizedBox(height: AppConstants.spacingM),
-                        
+
                         if (post.comments.isEmpty)
                           Padding(
-                            padding: const EdgeInsets.all(AppConstants.spacingL),
+                            padding: const EdgeInsets.all(
+                              AppConstants.spacingL,
+                            ),
                             child: Center(
                               child: Text(
                                 'Belum ada komentar',
@@ -192,8 +279,10 @@ class _PostDetailPageState extends ConsumerState<PostDetailPage> {
                             ),
                           )
                         else
-                          ...post.comments.map((comment) => _buildCommentItem(comment)),
-                        
+                          ...post.comments.map(
+                            (comment) => _buildCommentItem(comment),
+                          ),
+
                         // "Tampilkan Lainnya" button (if has more comments)
                         if (post.comments.length >= 5)
                           Center(
@@ -248,10 +337,7 @@ class _PostDetailPageState extends ConsumerState<PostDetailPage> {
                   children: [
                     Row(
                       children: [
-                        Text(
-                          'Anonymous',
-                          style: SpatiumTypography.h3,
-                        ),
+                        Text('Anonymous', style: SpatiumTypography.h3),
                         const SizedBox(width: AppConstants.spacingS),
                         Container(
                           padding: const EdgeInsets.symmetric(
@@ -261,7 +347,9 @@ class _PostDetailPageState extends ConsumerState<PostDetailPage> {
                           decoration: BoxDecoration(
                             color: moodBgColor,
                             borderRadius: BorderRadius.circular(12),
-                            border: Border.all(color: moodColor.withOpacity(0.3)),
+                            border: Border.all(
+                              color: moodColor.withOpacity(0.3),
+                            ),
                           ),
                           child: Row(
                             mainAxisSize: MainAxisSize.min,
@@ -302,10 +390,7 @@ class _PostDetailPageState extends ConsumerState<PostDetailPage> {
           ),
           const SizedBox(height: AppConstants.spacingL),
           // Content
-          Text(
-            post.content,
-            style: SpatiumTypography.bodyRegular,
-          ),
+          Text(post.content, style: SpatiumTypography.bodyRegular),
         ],
       ),
     );
@@ -336,17 +421,11 @@ class _PostDetailPageState extends ConsumerState<PostDetailPage> {
                 ),
               ),
               const SizedBox(width: AppConstants.spacingS),
-              Text(
-                'Respon AI',
-                style: SpatiumTypography.aiResponseTitle,
-              ),
+              Text('Respon AI', style: SpatiumTypography.aiResponseTitle),
             ],
           ),
           const SizedBox(height: AppConstants.spacingM),
-          Text(
-            aiResponse,
-            style: SpatiumTypography.aiResponseBody,
-          ),
+          Text(aiResponse, style: SpatiumTypography.aiResponseBody),
         ],
       ),
     );
@@ -357,7 +436,9 @@ class _PostDetailPageState extends ConsumerState<PostDetailPage> {
       children: [
         GestureDetector(
           onTap: () {
-            ref.read(timelineNotifierProvider.notifier).reactToPost(post.publicId);
+            ref
+                .read(timelineNotifierProvider.notifier)
+                .reactToPost(post.publicId);
           },
           child: Row(
             children: [
@@ -415,13 +496,14 @@ class _PostDetailPageState extends ConsumerState<PostDetailPage> {
               children: [
                 Row(
                   children: [
-                    Text(
-                      'Anonymous',
-                      style: SpatiumTypography.labelSemiBold,
-                    ),
+                    Text('Anonymous', style: SpatiumTypography.labelSemiBold),
                     const SizedBox(width: AppConstants.spacingS),
                     IconButton(
-                      icon: Icon(Icons.more_vert, size: 16, color: AppColor.secondary),
+                      icon: Icon(
+                        Icons.more_vert,
+                        size: 16,
+                        color: AppColor.secondary,
+                      ),
                       onPressed: () {},
                       padding: EdgeInsets.zero,
                       constraints: const BoxConstraints(),
@@ -429,10 +511,7 @@ class _PostDetailPageState extends ConsumerState<PostDetailPage> {
                   ],
                 ),
                 const SizedBox(height: 2),
-                Text(
-                  comment.content,
-                  style: SpatiumTypography.bodyRegular,
-                ),
+                Text(comment.content, style: SpatiumTypography.bodyRegular),
                 const SizedBox(height: 4),
                 Text(
                   _formatTimeAgo(comment.createdAt),
@@ -470,7 +549,9 @@ class _PostDetailPageState extends ConsumerState<PostDetailPage> {
         children: [
           Expanded(
             child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: AppConstants.spacingM),
+              padding: const EdgeInsets.symmetric(
+                horizontal: AppConstants.spacingM,
+              ),
               decoration: BoxDecoration(
                 color: AppColor.backgroundLight,
                 borderRadius: BorderRadius.circular(25),
@@ -507,11 +588,7 @@ class _PostDetailPageState extends ConsumerState<PostDetailPage> {
                         color: Colors.white,
                       ),
                     )
-                  : Icon(
-                      Icons.send,
-                      color: AppColor.white,
-                      size: 20,
-                    ),
+                  : Icon(Icons.send, color: AppColor.white, size: 20),
             ),
           ),
         ],

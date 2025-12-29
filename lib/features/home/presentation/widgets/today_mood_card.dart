@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:spatium/features/home/data/models/daily_mood_model.dart';
 import 'package:spatium/styles/colors.dart';
 import 'package:spatium/styles/constants.dart';
@@ -63,9 +64,10 @@ class TodayMoodCard extends StatelessWidget {
             shape: BoxShape.circle,
           ),
           child: Center(
-            child: Text(
-              todayMood!.moodEmoji,
-              style: const TextStyle(fontSize: 36),
+            child: SvgPicture.asset(
+              todayMood!.moodSvgPath,
+              width: 40,
+              height: 40,
             ),
           ),
         ),

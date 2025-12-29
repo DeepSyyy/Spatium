@@ -10,6 +10,7 @@ class CardCurhat extends StatefulWidget {
   final VoidCallback? onLike;
   final VoidCallback? onComment;
   final VoidCallback? onTap;
+  final VoidCallback? onDelete;
 
   const CardCurhat({
     super.key,
@@ -17,6 +18,7 @@ class CardCurhat extends StatefulWidget {
     this.onLike,
     this.onComment,
     this.onTap,
+    this.onDelete,
   });
 
   @override
@@ -79,28 +81,71 @@ class _CardCurhatState extends State<CardCurhat> {
     }
   }
 
+  void _showDeleteConfirmation() {
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: Text('Hapus Curhat', style: SpatiumTypography.h2),
+        content: Text(
+          'Apakah kamu yakin ingin menghapus curhat ini? Tindakan ini tidak dapat dibatalkan.',
+          style: SpatiumTypography.bodyRegular,
+        ),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(AppConstants.radiusM),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx),
+            child: Text(
+              'Batal',
+              style: SpatiumTypography.button.copyWith(
+                color: AppColor.secondary,
+              ),
+            ),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.pop(ctx);
+              widget.onDelete?.call();
+            },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.red,
+              foregroundColor: AppColor.white,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(AppConstants.radiusM),
+              ),
+            ),
+            child: Text('Hapus', style: SpatiumTypography.button),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
     final cardPadding = screenWidth * 0.04;
     final moodColor = _getMoodColor(widget.post.moodTagId);
     final moodBgColor = _getMoodBgColor(widget.post.moodTagId);
-    
+
     // Check if content needs truncation
     final needsTruncation = widget.post.content.length > 150;
-    final displayContent = _isExpanded || !needsTruncation 
-        ? widget.post.content 
+    final displayContent = _isExpanded || !needsTruncation
+        ? widget.post.content
         : '${widget.post.content.substring(0, 150)}...';
 
     // Check if AI response needs truncation
-    final hasAiResponse = widget.post.aiResponse != null && widget.post.aiResponse!.isNotEmpty;
-    final needsAiTruncation = hasAiResponse && widget.post.aiResponse!.length > 150;
+    final hasAiResponse =
+        widget.post.aiResponse != null && widget.post.aiResponse!.isNotEmpty;
+    final needsAiTruncation =
+        hasAiResponse && widget.post.aiResponse!.length > 150;
     final displayAiContent = hasAiResponse
-        ? (_isAiExpanded || !needsAiTruncation 
-            ? widget.post.aiResponse! 
-            : '${widget.post.aiResponse!.substring(0, 150)}...')
+        ? (_isAiExpanded || !needsAiTruncation
+              ? widget.post.aiResponse!
+              : '${widget.post.aiResponse!.substring(0, 150)}...')
         : '';
-    
+
     return GestureDetector(
       onTap: widget.onTap,
       child: Container(
@@ -153,10 +198,14 @@ class _CardCurhatState extends State<CardCurhat> {
                             decoration: BoxDecoration(
                               color: moodBgColor,
                               border: Border.all(
-                                color: moodColor.withOpacity(AppConstants.opacityHigh),
+                                color: moodColor.withOpacity(
+                                  AppConstants.opacityHigh,
+                                ),
                                 width: AppConstants.borderWidthThin,
                               ),
-                              borderRadius: BorderRadius.circular(AppConstants.radiusM),
+                              borderRadius: BorderRadius.circular(
+                                AppConstants.radiusM,
+                              ),
                             ),
                             child: Row(
                               mainAxisSize: MainAxisSize.min,
@@ -175,6 +224,43 @@ class _CardCurhatState extends State<CardCurhat> {
                               ],
                             ),
                           ),
+                          // More menu (only for owner)
+                          if (widget.post.isOwner && widget.onDelete != null)
+                            PopupMenuButton<String>(
+                              icon: Icon(
+                                Icons.more_vert,
+                                color: AppColor.secondary,
+                                size: AppConstants.iconS,
+                              ),
+                              padding: EdgeInsets.zero,
+                              onSelected: (value) {
+                                if (value == 'delete') {
+                                  _showDeleteConfirmation();
+                                }
+                              },
+                              itemBuilder: (context) => [
+                                PopupMenuItem(
+                                  value: 'delete',
+                                  child: Row(
+                                    children: [
+                                      Icon(
+                                        Icons.delete_outline,
+                                        color: Colors.red,
+                                        size: AppConstants.iconS,
+                                      ),
+                                      const SizedBox(
+                                        width: AppConstants.spacingS,
+                                      ),
+                                      Text(
+                                        'Hapus',
+                                        style: SpatiumTypography.bodyRegular
+                                            .copyWith(color: Colors.red),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
                         ],
                       ),
                       const SizedBox(height: 2),
@@ -232,7 +318,9 @@ class _CardCurhatState extends State<CardCurhat> {
                         Container(
                           padding: const EdgeInsets.all(AppConstants.avatarS),
                           decoration: BoxDecoration(
-                            color: AppColor.aiResponseText.withOpacity(AppConstants.opacityMedium),
+                            color: AppColor.aiResponseText.withOpacity(
+                              AppConstants.opacityMedium,
+                            ),
                             shape: BoxShape.circle,
                           ),
                           child: Icon(
@@ -259,13 +347,16 @@ class _CardCurhatState extends State<CardCurhat> {
                           if (needsAiTruncation)
                             WidgetSpan(
                               child: GestureDetector(
-                                onTap: () => setState(() => _isAiExpanded = !_isAiExpanded),
+                                onTap: () => setState(
+                                  () => _isAiExpanded = !_isAiExpanded,
+                                ),
                                 child: Text(
                                   _isAiExpanded ? ' tutup' : ' lainnya',
-                                  style: SpatiumTypography.aiResponseBody.copyWith(
-                                    color: AppColor.primary,
-                                    fontWeight: FontWeight.w600,
-                                  ),
+                                  style: SpatiumTypography.aiResponseBody
+                                      .copyWith(
+                                        color: AppColor.primary,
+                                        fontWeight: FontWeight.w600,
+                                      ),
                                 ),
                               ),
                             ),
@@ -287,9 +378,13 @@ class _CardCurhatState extends State<CardCurhat> {
                   child: Row(
                     children: [
                       Icon(
-                        widget.post.isLiked ? Icons.favorite : Icons.favorite_border, 
-                        size: AppConstants.iconS, 
-                        color: widget.post.isLiked ? Colors.red : AppColor.placeholder,
+                        widget.post.isLiked
+                            ? Icons.favorite
+                            : Icons.favorite_border,
+                        size: AppConstants.iconS,
+                        color: widget.post.isLiked
+                            ? Colors.red
+                            : AppColor.placeholder,
                       ),
                       const SizedBox(width: AppConstants.spacingXs),
                       Text(
@@ -305,7 +400,11 @@ class _CardCurhatState extends State<CardCurhat> {
                   onTap: widget.onComment,
                   child: Row(
                     children: [
-                      Icon(Icons.chat_bubble_outline, size: AppConstants.iconS, color: AppColor.placeholder),
+                      Icon(
+                        Icons.chat_bubble_outline,
+                        size: AppConstants.iconS,
+                        color: AppColor.placeholder,
+                      ),
                       const SizedBox(width: AppConstants.spacingXs),
                       Text(
                         '${widget.post.commentCount}',

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:spatium/styles/colors.dart';
 import 'package:spatium/styles/constants.dart';
 import 'package:spatium/styles/typography.dart';
@@ -19,19 +20,32 @@ class CalendarLegend extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            'Keterangan',
-            style: SpatiumTypography.labelSemiBold,
-          ),
+          Text('Keterangan', style: SpatiumTypography.labelSemiBold),
           const SizedBox(height: AppConstants.spacingM),
           Wrap(
             spacing: AppConstants.spacingL,
             runSpacing: AppConstants.spacingS,
             children: [
-              _buildLegendItem('😊 Senang', AppColor.statusHappyBg),
-              _buildLegendItem('😐 Netral', AppColor.statusNeutralBg),
-              _buildLegendItem('😢 Sedih', AppColor.statusSadBg),
-              _buildLegendItem('😠 Marah', AppColor.statusAngryBg),
+              _buildLegendItem(
+                'assets/svg/happy.svg',
+                'Senang',
+                AppColor.statusHappyBg,
+              ),
+              _buildLegendItem(
+                'assets/svg/neutral.svg',
+                'Netral',
+                AppColor.statusNeutralBg,
+              ),
+              _buildLegendItem(
+                'assets/svg/sad.svg',
+                'Sedih',
+                AppColor.statusSadBg,
+              ),
+              _buildLegendItem(
+                'assets/svg/angry.svg',
+                'Marah',
+                AppColor.statusAngryBg,
+              ),
             ],
           ),
           const SizedBox(height: AppConstants.spacingM),
@@ -59,24 +73,25 @@ class CalendarLegend extends StatelessWidget {
     );
   }
 
-  Widget _buildLegendItem(String label, Color color) {
+  Widget _buildLegendItem(String svgPath, String label, Color color) {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
         Container(
-          width: 16,
-          height: 16,
+          width: 20,
+          height: 20,
           decoration: BoxDecoration(
             color: color,
             borderRadius: BorderRadius.circular(4),
+          ),
+          child: Center(
+            child: SvgPicture.asset(svgPath, width: 14, height: 14),
           ),
         ),
         const SizedBox(width: 6),
         Text(
           label,
-          style: SpatiumTypography.small.copyWith(
-            color: AppColor.secondary,
-          ),
+          style: SpatiumTypography.small.copyWith(color: AppColor.secondary),
         ),
       ],
     );

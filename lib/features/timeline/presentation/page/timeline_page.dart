@@ -36,10 +36,20 @@ class _TimelinePageState extends ConsumerState<TimelinePage> {
   void _onComment(String postId) {
     Navigator.push(
       context,
-      MaterialPageRoute(
-        builder: (context) => PostDetailPage(postId: postId),
-      ),
+      MaterialPageRoute(builder: (context) => PostDetailPage(postId: postId)),
     );
+  }
+
+  void _onDelete(String postId) async {
+    await ref.read(timelineNotifierProvider.notifier).deletePost(postId);
+    if (mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Curhat berhasil dihapus'),
+          backgroundColor: Colors.green,
+        ),
+      );
+    }
   }
 
   @override
@@ -62,32 +72,34 @@ class _TimelinePageState extends ConsumerState<TimelinePage> {
                 ),
               )
             : timelineState.hasError && timelineState.posts.isEmpty
-                ? _buildErrorState(timelineState.error!)
-                : timelineState.isEmpty
-                    ? _buildEmptyState()
-                    : RefreshIndicator(
-                        onRefresh: _onRefresh,
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: MediaQuery.of(context).size.width * 0.04,
-                            vertical: 8.0,
-                          ),
-                          child: ListView.separated(
-                            physics: const AlwaysScrollableScrollPhysics(),
-                            separatorBuilder: (context, index) => const SizedBox(height: 12),
-                            itemCount: timelineState.posts.length,
-                            itemBuilder: (context, index) {
-                              final post = timelineState.posts[index];
-                              return CardCurhat(
-                                post: post,
-                                onLike: () => _onLike(post.publicId),
-                                onComment: () => _onComment(post.publicId),
-                                onTap: () => _onComment(post.publicId),
-                              );
-                            },
-                          ),
-                        ),
-                      ),
+            ? _buildErrorState(timelineState.error!)
+            : timelineState.isEmpty
+            ? _buildEmptyState()
+            : RefreshIndicator(
+                onRefresh: _onRefresh,
+                child: Padding(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: MediaQuery.of(context).size.width * 0.04,
+                    vertical: 8.0,
+                  ),
+                  child: ListView.separated(
+                    physics: const AlwaysScrollableScrollPhysics(),
+                    separatorBuilder: (context, index) =>
+                        const SizedBox(height: 12),
+                    itemCount: timelineState.posts.length,
+                    itemBuilder: (context, index) {
+                      final post = timelineState.posts[index];
+                      return CardCurhat(
+                        post: post,
+                        onLike: () => _onLike(post.publicId),
+                        onComment: () => _onComment(post.publicId),
+                        onTap: () => _onComment(post.publicId),
+                        onDelete: () => _onDelete(post.publicId),
+                      );
+                    },
+                  ),
+                ),
+              ),
       ),
     );
   }
@@ -105,9 +117,7 @@ class _TimelinePageState extends ConsumerState<TimelinePage> {
           const SizedBox(height: AppConstants.spacingL),
           Text(
             'Belum ada curhatan',
-            style: SpatiumTypography.h2.copyWith(
-              color: AppColor.secondary,
-            ),
+            style: SpatiumTypography.h2.copyWith(color: AppColor.secondary),
           ),
           const SizedBox(height: AppConstants.spacingS),
           Text(
@@ -128,17 +138,11 @@ class _TimelinePageState extends ConsumerState<TimelinePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(
-              Icons.error_outline,
-              size: 64,
-              color: AppColor.error,
-            ),
+            Icon(Icons.error_outline, size: 64, color: AppColor.error),
             const SizedBox(height: AppConstants.spacingL),
             Text(
               'Tidak dapat memuat timeline',
-              style: SpatiumTypography.h2.copyWith(
-                color: AppColor.secondary,
-              ),
+              style: SpatiumTypography.h2.copyWith(color: AppColor.secondary),
             ),
             const SizedBox(height: AppConstants.spacingS),
             Text(

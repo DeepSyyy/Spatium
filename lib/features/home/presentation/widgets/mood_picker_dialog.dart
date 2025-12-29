@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:spatium/styles/colors.dart';
 import 'package:spatium/styles/constants.dart';
 import 'package:spatium/styles/typography.dart';
@@ -9,11 +10,7 @@ class MoodPickerDialog extends StatefulWidget {
   final int? currentMoodId;
   final String? currentNote;
 
-  const MoodPickerDialog({
-    super.key,
-    this.currentMoodId,
-    this.currentNote,
-  });
+  const MoodPickerDialog({super.key, this.currentMoodId, this.currentNote});
 
   @override
   State<MoodPickerDialog> createState() => _MoodPickerDialogState();
@@ -24,10 +21,30 @@ class _MoodPickerDialogState extends State<MoodPickerDialog> {
   late TextEditingController _noteController;
 
   final List<_MoodOption> _moods = [
-    _MoodOption(id: 1, emoji: '😊', label: 'Senang', color: AppColor.statusHappyBg),
-    _MoodOption(id: 4, emoji: '😐', label: 'Netral', color: AppColor.statusNeutralBg),
-    _MoodOption(id: 2, emoji: '😢', label: 'Sedih', color: AppColor.statusSadBg),
-    _MoodOption(id: 3, emoji: '😠', label: 'Marah', color: AppColor.statusAngryBg),
+    _MoodOption(
+      id: 1,
+      svgPath: 'assets/svg/happy.svg',
+      label: 'Senang',
+      color: AppColor.statusHappyBg,
+    ),
+    _MoodOption(
+      id: 4,
+      svgPath: 'assets/svg/neutral.svg',
+      label: 'Netral',
+      color: AppColor.statusNeutralBg,
+    ),
+    _MoodOption(
+      id: 2,
+      svgPath: 'assets/svg/sad.svg',
+      label: 'Sedih',
+      color: AppColor.statusSadBg,
+    ),
+    _MoodOption(
+      id: 3,
+      svgPath: 'assets/svg/angry.svg',
+      label: 'Marah',
+      color: AppColor.statusAngryBg,
+    ),
   ];
 
   @override
@@ -55,25 +72,19 @@ class _MoodPickerDialogState extends State<MoodPickerDialog> {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              'Bagaimana perasaanmu hari ini?',
-              style: SpatiumTypography.h2,
-            ),
+            Text('Bagaimana perasaanmu hari ini?', style: SpatiumTypography.h2),
             const SizedBox(height: AppConstants.spacingXl),
-            
+
             // Mood emoji grid
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: _moods.map((mood) => _buildMoodOption(mood)).toList(),
             ),
-            
+
             const SizedBox(height: AppConstants.spacingXl),
-            
+
             // Note input
-            Text(
-              'Catatan (opsional)',
-              style: SpatiumTypography.labelSemiBold,
-            ),
+            Text('Catatan (opsional)', style: SpatiumTypography.labelSemiBold),
             const SizedBox(height: AppConstants.spacingS),
             TextField(
               controller: _noteController,
@@ -90,9 +101,9 @@ class _MoodPickerDialogState extends State<MoodPickerDialog> {
                 contentPadding: const EdgeInsets.all(AppConstants.spacingM),
               ),
             ),
-            
+
             const SizedBox(height: AppConstants.spacingXl),
-            
+
             // Buttons
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
@@ -128,10 +139,7 @@ class _MoodPickerDialogState extends State<MoodPickerDialog> {
                       vertical: AppConstants.spacingM,
                     ),
                   ),
-                  child: Text(
-                    'Simpan',
-                    style: SpatiumTypography.button,
-                  ),
+                  child: Text('Simpan', style: SpatiumTypography.button),
                 ),
               ],
             ),
@@ -143,7 +151,7 @@ class _MoodPickerDialogState extends State<MoodPickerDialog> {
 
   Widget _buildMoodOption(_MoodOption mood) {
     final isSelected = _selectedMoodId == mood.id;
-    
+
     return GestureDetector(
       onTap: () {
         setState(() {
@@ -172,10 +180,7 @@ class _MoodPickerDialogState extends State<MoodPickerDialog> {
                   : null,
             ),
             child: Center(
-              child: Text(
-                mood.emoji,
-                style: const TextStyle(fontSize: 28),
-              ),
+              child: SvgPicture.asset(mood.svgPath, width: 28, height: 28),
             ),
           ),
           const SizedBox(height: AppConstants.spacingS),
@@ -194,13 +199,13 @@ class _MoodPickerDialogState extends State<MoodPickerDialog> {
 
 class _MoodOption {
   final int id;
-  final String emoji;
+  final String svgPath;
   final String label;
   final Color color;
 
   _MoodOption({
     required this.id,
-    required this.emoji,
+    required this.svgPath,
     required this.label,
     required this.color,
   });

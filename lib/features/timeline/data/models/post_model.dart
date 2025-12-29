@@ -10,6 +10,7 @@ class PostModel {
   final int reactionCount;
   final int commentCount;
   final bool isLiked;
+  final bool isOwner;
 
   const PostModel({
     required this.publicId,
@@ -21,6 +22,7 @@ class PostModel {
     this.reactionCount = 0,
     this.commentCount = 0,
     this.isLiked = false,
+    this.isOwner = false,
   });
 
   factory PostModel.fromJson(Map<String, dynamic> json) {
@@ -36,6 +38,7 @@ class PostModel {
       reactionCount: json['reaction_count'] is int ? json['reaction_count'] : int.tryParse(json['reaction_count']?.toString() ?? '0') ?? 0,
       commentCount: json['comment_count'] is int ? json['comment_count'] : int.tryParse(json['comment_count']?.toString() ?? '0') ?? 0,
       isLiked: json['is_liked'] == true,
+      isOwner: json['is_owner'] == true,
     );
   }
 
@@ -50,6 +53,7 @@ class PostModel {
       'reaction_count': reactionCount,
       'comment_count': commentCount,
       'is_liked': isLiked,
+      'is_owner': isOwner,
     };
   }
 
@@ -63,6 +67,7 @@ class PostModel {
     int? reactionCount,
     int? commentCount,
     bool? isLiked,
+    bool? isOwner,
   }) {
     return PostModel(
       publicId: publicId ?? this.publicId,
@@ -74,6 +79,7 @@ class PostModel {
       reactionCount: reactionCount ?? this.reactionCount,
       commentCount: commentCount ?? this.commentCount,
       isLiked: isLiked ?? this.isLiked,
+      isOwner: isOwner ?? this.isOwner,
     );
   }
 

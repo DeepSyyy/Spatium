@@ -56,18 +56,19 @@ class DailyMoodModel {
     }
   }
 
-  String get moodEmoji {
+  /// Get mood SVG asset path based on mood tag ID
+  String get moodSvgPath {
     switch (moodTagId) {
       case 1:
-        return '😊';
+        return 'assets/svg/happy.svg';
       case 2:
-        return '😢';
+        return 'assets/svg/sad.svg';
       case 3:
-        return '😠';
+        return 'assets/svg/angry.svg';
       case 4:
-        return '😐';
+        return 'assets/svg/neutral.svg';
       default:
-        return '❓';
+        return 'assets/svg/neutral.svg';
     }
   }
 }
