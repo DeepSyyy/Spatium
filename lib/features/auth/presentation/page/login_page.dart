@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:spatium/core/services/google_sign_in_service.dart';
+import 'package:spatium/features/auth/presentation/page/alias_setup_page.dart';
 import 'package:spatium/features/auth/presentation/providers/auth_notifier.dart';
 import 'package:spatium/features/auth/presentation/providers/auth_providers.dart';
 import 'package:spatium/features/auth/presentation/providers/auth_state.dart';
@@ -37,17 +38,37 @@ class _LoginPageState extends ConsumerState<LoginPage> {
         // Get user info
         final googleId = account.id;
         final email = account.email;
-        final displayName = account.displayName ?? email.split('@')[0];
         final photoUrl = account.photoUrl;
 
-        print('🔵 Calling backend login...');
-        // Login with backend
-        await ref.read(authNotifierProvider.notifier).googleLogin(
-          googleId: googleId,
-          email: email,
-          alias: displayName,
-          photoUrl: photoUrl,
-        );
+        // Navigate to alias setup page first
+        if (mounted) {
+          final alias = await Navigator.push<String>(
+            context,
+            MaterialPageRoute(
+              builder: (context) => AliasSetupPage(
+                googleId: googleId,
+                email: email,
+                photoUrl: photoUrl,
+                suggestedName: account.displayName,
+              ),
+            ),
+          );
+
+          // If user completed alias setup, proceed with login
+          if (alias != null && alias.isNotEmpty) {
+            print('🔵 Calling backend login with alias: $alias');
+            await ref.read(authNotifierProvider.notifier).googleLogin(
+              googleId: googleId,
+              email: email,
+              alias: alias,
+              photoUrl: photoUrl,
+            );
+          } else {
+            print('⚠️ Alias setup was cancelled');
+            // Sign out from Google since user cancelled
+            await _googleSignInService.signOut();
+          }
+        }
       } else {
         print('⚠️ Account is null - sign in was cancelled or failed');
         if (mounted) {
@@ -287,29 +308,100 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                   
                   const SizedBox(height: AppConstants.spacingXxl),
                   
-                  // Info
+                  // Privacy Info - Enhanced Disclaimer
                   Container(
                     padding: const EdgeInsets.all(AppConstants.spacingM),
                     decoration: BoxDecoration(
-                      color: AppColor.hintBackground,
+                      gradient: LinearGradient(
+                        colors: [
+                          AppColor.primary.withValues(alpha: 0.08),
+                          Colors.green.withValues(alpha: 0.08),
+                        ],
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                      ),
                       borderRadius: BorderRadius.circular(AppConstants.radiusS),
+                      border: Border.all(
+                        color: Colors.green.withValues(alpha: 0.3),
+                      ),
                     ),
-                    child: Row(
+                    child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Icon(
-                          Icons.info_outline,
-                          color: AppColor.secondary,
-                          size: AppConstants.iconS,
-                        ),
-                        const SizedBox(width: AppConstants.spacingS),
-                        Expanded(
-                          child: Text(
-                            'Kami menggunakan Google Sign In untuk keamanan dan kemudahan akses. Data Anda akan tersimpan dengan aman.',
-                            style: SpatiumTypography.small.copyWith(
-                              color: AppColor.secondary,
+                        Row(
+                          children: [
+                            Container(
+                              padding: const EdgeInsets.all(6),
+                              decoration: BoxDecoration(
+                                color: Colors.green.withValues(alpha: 0.2),
+                                shape: BoxShape.circle,
+                              ),
+                              child: Icon(
+                                Icons.shield_outlined,
+                                color: Colors.green[700],
+                                size: 16,
+                              ),
                             ),
-                          ),
+                            const SizedBox(width: AppConstants.spacingS),
+                            Text(
+                              'Privasi Anda Terlindungi',
+                              style: SpatiumTypography.bodyMedium.copyWith(
+                                fontWeight: FontWeight.w600,
+                                color: Colors.green[700],
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: AppConstants.spacingM),
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Icon(Icons.check_circle, 
+                              color: Colors.green[600], size: 14),
+                            const SizedBox(width: 6),
+                            Expanded(
+                              child: Text(
+                                'Email Anda HANYA untuk pemulihan akun',
+                                style: SpatiumTypography.small.copyWith(
+                                  color: AppColor.secondary,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 6),
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Icon(Icons.check_circle, 
+                              color: Colors.green[600], size: 14),
+                            const SizedBox(width: 6),
+                            Expanded(
+                              child: Text(
+                                'Nama asli Anda TIDAK akan ditampilkan',
+                                style: SpatiumTypography.small.copyWith(
+                                  color: AppColor.secondary,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 6),
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Icon(Icons.check_circle, 
+                              color: Colors.green[600], size: 14),
+                            const SizedBox(width: 6),
+                            Expanded(
+                              child: Text(
+                                'Anda akan membuat nama samaran setelah ini',
+                                style: SpatiumTypography.small.copyWith(
+                                  color: AppColor.secondary,
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                       ],
                     ),

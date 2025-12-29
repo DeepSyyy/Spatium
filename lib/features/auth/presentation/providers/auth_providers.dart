@@ -83,3 +83,21 @@ final isLoggedInProvider = FutureProvider<bool>((ref) async {
   final repository = ref.watch(authRepositoryProvider);
   return await repository.isLoggedIn();
 });
+
+// ============================================
+// Update Alias
+// ============================================
+
+/// Provider to update user alias
+final updateAliasProvider = FutureProvider.family<String, String>((ref, newAlias) async {
+  final remoteDataSource = ref.watch(authRemoteDataSourceProvider);
+  final localDataSource = ref.watch(authLocalDataSourceProvider);
+  
+  // Call API to update alias
+  final result = await remoteDataSource.updateAlias(newAlias);
+  
+  // Update local storage
+  await localDataSource.saveUserAlias(newAlias);
+  
+  return result['alias'] as String;
+});

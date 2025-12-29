@@ -16,6 +16,7 @@ abstract class AuthRemoteDataSource {
     String? alias,
     String? photoUrl,
   });
+  Future<Map<String, dynamic>> updateAlias(String newAlias);
 }
 
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
@@ -115,6 +116,36 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       }
       throw ServerException(
         message: 'Failed to login with Google: ${e.toString()}',
+      );
+    }
+  }
+
+  @override
+  Future<Map<String, dynamic>> updateAlias(String newAlias) async {
+    try {
+      final response = await apiClient.put(
+        ApiConstants.updateAlias,
+        data: {'alias': newAlias},
+      );
+
+      if (response.statusCode == 200) {
+        final data = response.data['data'];
+        return {
+          'alias': data['alias'] ?? newAlias,
+          'public_id': data['public_id'],
+        };
+      } else {
+        throw ServerException(
+          message: response.data['message'] ?? 'Failed to update alias',
+          statusCode: response.statusCode,
+        );
+      }
+    } catch (e) {
+      if (e is ServerException || e is NetworkException) {
+        rethrow;
+      }
+      throw ServerException(
+        message: 'Failed to update alias: ${e.toString()}',
       );
     }
   }
