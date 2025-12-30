@@ -57,7 +57,7 @@ class _TimelinePageState extends ConsumerState<TimelinePage> {
     final timelineState = ref.watch(timelineNotifierProvider);
 
     return Scaffold(
-      backgroundColor: AppColor.white,
+      backgroundColor: AppColor.backgroundLight,
       appBar: TimelineAppbar(),
       body: SafeArea(
         child: timelineState.isLoading && timelineState.posts.isEmpty

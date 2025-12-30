@@ -19,6 +19,7 @@ abstract class AuthLocalDataSource {
   Future<UserEntity?> getCachedUser();
   Future<bool> isLoggedIn();
   Future<void> clearAuthData();
+  Future<void> saveUserAlias(String alias);
 }
 
 class AuthLocalDataSourceImpl implements AuthLocalDataSource {
@@ -74,8 +75,14 @@ class AuthLocalDataSourceImpl implements AuthLocalDataSource {
   }
 
   @override
+  @override
   Future<void> clearAuthData() async {
     await storageService.clearAuth();
     await storageService.delete(key: 'cached_user');
+  }
+
+  @override
+  Future<void> saveUserAlias(String alias) async {
+    await storageService.saveUserAlias(alias);
   }
 }

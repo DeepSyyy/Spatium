@@ -4,14 +4,63 @@ import 'package:spatium/core/providers/core_providers.dart';
 import 'package:spatium/core/services/google_sign_in_service.dart';
 import 'package:spatium/features/auth/presentation/page/welcome_page.dart';
 import 'package:spatium/features/auth/presentation/providers/auth_notifier.dart';
+import 'package:spatium/features/auth/presentation/providers/auth_providers.dart';
+import 'package:spatium/features/profile/presentation/widget/edit_alias_dialog.dart';
 import 'package:spatium/styles/colors.dart';
 import 'package:spatium/styles/constants.dart';
 import 'package:spatium/styles/typography.dart';
 
-class ProfilePage extends ConsumerWidget {
+class ProfilePage extends ConsumerStatefulWidget {
   const ProfilePage({super.key});
 
-  Future<void> _handleLogout(BuildContext context, WidgetRef ref) async {
+  @override
+  ConsumerState<ProfilePage> createState() => _ProfilePageState();
+}
+
+class _ProfilePageState extends ConsumerState<ProfilePage> {
+  String? _currentAlias;
+
+  Future<void> _showEditAliasDialog(String currentAlias) async {
+    final remoteDataSource = ref.read(authRemoteDataSourceProvider);
+    final localDataSource = ref.read(authLocalDataSourceProvider);
+
+    final result = await showDialog<String>(
+      context: context,
+      builder: (context) => EditAliasDialog(
+        currentAlias: currentAlias,
+        onSave: (newAlias) async {
+          // Call API to update alias
+          await remoteDataSource.updateAlias(newAlias);
+          // Update local storage
+          await localDataSource.saveUserAlias(newAlias);
+        },
+      ),
+    );
+
+    if (result != null && result.isNotEmpty && mounted) {
+      setState(() {
+        _currentAlias = result;
+      });
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Row(
+            children: [
+              Icon(Icons.check_circle, color: AppColor.white),
+              const SizedBox(width: AppConstants.spacingS),
+              Text('Nama samaran berhasil diubah'),
+            ],
+          ),
+          backgroundColor: Colors.green,
+          behavior: SnackBarBehavior.floating,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(AppConstants.radiusS),
+          ),
+        ),
+      );
+    }
+  }
+
+  Future<void> _handleLogout(BuildContext context) async {
     // Show confirmation dialog
     final confirmed = await showDialog<bool>(
       context: context,
@@ -72,7 +121,7 @@ class ProfilePage extends ConsumerWidget {
   }
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     // Get user info from storage
     final storageService = ref.read(secureStorageServiceProvider);
     final userAliasFuture = storageService.getUserAlias();
@@ -122,15 +171,32 @@ class ProfilePage extends ConsumerWidget {
                   FutureBuilder<String?>(
                     future: userAliasFuture,
                     builder: (context, snapshot) {
-                      if (snapshot.hasData && snapshot.data != null) {
-                        return Text(
-                          snapshot.data!,
-                          style: SpatiumTypography.h1,
-                        );
-                      }
-                      return Text(
-                        'User',
-                        style: SpatiumTypography.h1,
+                      final alias = _currentAlias ?? snapshot.data ?? 'User';
+                      return Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(
+                            alias,
+                            style: SpatiumTypography.h1,
+                          ),
+                          const SizedBox(width: AppConstants.spacingS),
+                          InkWell(
+                            onTap: () => _showEditAliasDialog(alias),
+                            borderRadius: BorderRadius.circular(20),
+                            child: Container(
+                              padding: const EdgeInsets.all(6),
+                              decoration: BoxDecoration(
+                                color: AppColor.primary.withValues(alpha: 0.1),
+                                shape: BoxShape.circle,
+                              ),
+                              child: Icon(
+                                Icons.edit_outlined,
+                                size: 16,
+                                color: AppColor.primary,
+                              ),
+                            ),
+                          ),
+                        ],
                       );
                     },
                   ),
@@ -214,10 +280,27 @@ class ProfilePage extends ConsumerWidget {
                     },
                   ),
                   const SizedBox(height: AppConstants.spacingS),
-                  Text(
-                    'Akun Anda terhubung dengan Google untuk keamanan dan kemudahan akses',
-                    style: SpatiumTypography.small.copyWith(
-                      color: AppColor.secondary,
+                  Container(
+                    padding: const EdgeInsets.all(AppConstants.spacingS),
+                    decoration: BoxDecoration(
+                      color: Colors.green.withValues(alpha: 0.1),
+                      borderRadius: BorderRadius.circular(AppConstants.radiusS),
+                    ),
+                    child: Row(
+                      children: [
+                        Icon(Icons.shield_outlined, 
+                          color: Colors.green[700], size: 14),
+                        const SizedBox(width: 6),
+                        Expanded(
+                          child: Text(
+                            'Email hanya untuk pemulihan akun - tidak ditampilkan ke pengguna lain',
+                            style: SpatiumTypography.small.copyWith(
+                              color: Colors.green[700],
+                              fontSize: 11,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ],
@@ -236,7 +319,7 @@ class ProfilePage extends ConsumerWidget {
             SizedBox(
               width: double.infinity,
               child: ElevatedButton.icon(
-                onPressed: () => _handleLogout(context, ref),
+                onPressed: () => _handleLogout(context),
                 icon: Icon(Icons.logout, size: AppConstants.iconS),
                 label: const Text('Logout'),
                 style: ElevatedButton.styleFrom(

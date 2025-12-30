@@ -62,6 +62,19 @@ class ApiConstants {
   // AI Reflection Endpoints
   static const String aiReflection = '/ai/reflection';
   
+  // Report Endpoints (Content Moderation)
+  static const String reports = '/reports';
+  static const String reportReasons = '/reports/reasons';
+  static const String myReports = '/reports/me';
+  
+  // Block Endpoints (User Safety)
+  static const String blockUser = '/users/block';
+  static const String blockedUsers = '/users/blocked';
+  static String unblockUser(String userId) => '/users/block/$userId';
+  
+  // User Profile Endpoints
+  static const String updateAlias = '/user/alias';
+  
   // Headers
   static const String contentTypeJson = 'application/json';
   static const String acceptJson = 'application/json';

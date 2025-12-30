@@ -144,13 +144,37 @@ class WelcomePage extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(height: AppConstants.spacingM),
-                      // Info text
-                      Text(
-                        'Kami menggunakan Google untuk keamanan dan kemudahan akses',
-                        style: SpatiumTypography.small.copyWith(
-                          color: AppColor.secondary,
+                      // Privacy assurance text
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: AppConstants.spacingS,
+                          vertical: AppConstants.spacingS,
                         ),
-                        textAlign: TextAlign.center,
+                        decoration: BoxDecoration(
+                          color: Colors.green.withValues(alpha: 0.1),
+                          borderRadius: BorderRadius.circular(AppConstants.radiusS),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.shield_outlined,
+                              size: 14,
+                              color: Colors.green[700],
+                            ),
+                            const SizedBox(width: 6),
+                            Flexible(
+                              child: Text(
+                                'Nama & email Anda tidak akan ditampilkan ke pengguna lain',
+                                style: SpatiumTypography.small.copyWith(
+                                  color: Colors.green[700],
+                                  fontSize: 11,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ],
                   ),

@@ -238,49 +238,98 @@ class _ChatAIPageState extends ConsumerState<ChatAIPage> {
   }
 
   Widget _buildEmptyChat() {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          // Robot image from assets
-          Image.asset(
-            'assets/images/robot.png',
-            width: 120,
-            height: 120,
-            fit: BoxFit.contain,
-          ),
-          const SizedBox(height: AppConstants.radiusXl + 10),
-          Container(
-            margin: const EdgeInsets.symmetric(horizontal: AppConstants.spacing40),
-            padding: const EdgeInsets.all(AppConstants.spacingL),
-            decoration: BoxDecoration(
-              color: AppColor.white,
-              borderRadius: BorderRadius.circular(15),
+    return SingleChildScrollView(
+      child: Padding(
+        padding: const EdgeInsets.all(AppConstants.spacingXl),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const SizedBox(height: 40),
+            // Robot SVG from assets
+            Container(
+              padding: const EdgeInsets.all(20),
+              decoration: BoxDecoration(
+                color: AppColor.primary.withOpacity(0.1),
+                shape: BoxShape.circle,
+              ),
+              child: SvgPicture.asset(
+                'assets/svg/robot.svg',
+                width: 80,
+                height: 80,
+                fit: BoxFit.contain,
+              ),
             ),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                // Sparkles SVG icon
-                SvgPicture.asset(
-                  'assets/svg/sparkles-sharp.svg',
-                  width: AppConstants.spacingXl,
-                  height: AppConstants.spacingXl,
-                  colorFilter: ColorFilter.mode(
-                    AppColor.primary,
-                    BlendMode.srcIn,
-                  ),
-                ),
-                const SizedBox(width: AppConstants.spacingS),
-                Flexible(
-                  child: Text(
-                    'Halo, apa yang ingin kamu ceritakan hari ini?',
-                    style: SpatiumTypography.chatSmall,
-                  ),
-                ),
-              ],
+            const SizedBox(height: AppConstants.spacingXl),
+            Text(
+              'Halo! Aku Spatium AI 👋',
+              style: SpatiumTypography.pageTitle,
+              textAlign: TextAlign.center,
             ),
+            const SizedBox(height: AppConstants.spacingM),
+            Text(
+              'Teman virtualmu yang siap mendengarkan curhatanmu kapan saja',
+              style: SpatiumTypography.hint.copyWith(
+                height: 1.5,
+              ),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: AppConstants.spacing32),
+            // Suggestion chips
+            _buildSuggestionChip('Aku lagi merasa sedih hari ini...'),
+            const SizedBox(height: AppConstants.spacingM),
+            _buildSuggestionChip('Ada yang mengganggu pikiranku'),
+            const SizedBox(height: AppConstants.spacingM),
+            _buildSuggestionChip('Aku butuh teman cerita'),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildSuggestionChip(String text) {
+    return InkWell(
+      onTap: () {
+        _messageController.text = text;
+        _sendMessage();
+      },
+      borderRadius: BorderRadius.circular(20),
+      child: Container(
+        width: double.infinity,
+        padding: const EdgeInsets.symmetric(
+          horizontal: AppConstants.spacingL,
+          vertical: AppConstants.spacingM,
+        ),
+        decoration: BoxDecoration(
+          color: AppColor.white,
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(
+            color: AppColor.primary.withOpacity(0.2),
+            width: 1,
           ),
-        ],
+        ),
+        child: Row(
+          children: [
+            Icon(
+              Icons.chat_bubble_outline,
+              size: 18,
+              color: AppColor.primary,
+            ),
+            const SizedBox(width: AppConstants.spacingM),
+            Expanded(
+              child: Text(
+                text,
+                style: SpatiumTypography.chatSmall.copyWith(
+                  color: AppColor.secondary,
+                ),
+              ),
+            ),
+            Icon(
+              Icons.arrow_forward_ios,
+              size: 14,
+              color: AppColor.placeholder,
+            ),
+          ],
+        ),
       ),
     );
   }
